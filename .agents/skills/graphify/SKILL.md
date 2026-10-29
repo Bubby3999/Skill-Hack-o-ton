@@ -1,7 +1,8 @@
 ---
 name: graphify
 description: any input (code, docs, papers, images) → knowledge graph → clustered communities → HTML + JSON + audit report
-trigger: /graphify
+metadata:
+  trigger: /graphify
 ---
 
 # /graphify
@@ -51,17 +52,30 @@ Use it for:
 
 ## What You Must Do When Invoked
 
+Use this skill only when requested. Read the repository's `AGENTS.md` and `CLAUDE.md` before running the workflow. A Graphify request alone does not authorize orchestration: default to a single agent. Spawn subagents only when the user explicitly requests orchestration and agrees to the model and session count. Existing authorization for the current task is sufficient; do not ask again. The optional parallel instructions below apply only within that authorization and the host's concurrency limit.
+
 If no path was given, use `.` (current directory). Do not ask the user for a path.
 
 Follow these steps in order. Do not skip steps.
 
-### Step 1 - Ensure graphify is installed
+### Step 1 - Check the graphify dependency
 
 ```bash
-python3 -c "import graphify" 2>/dev/null || pip install graphifyy -q --break-system-packages 2>&1 | tail -3
+python3 -c "import graphify"
 ```
 
 If the import succeeds, print nothing and move straight to Step 2.
+
+If it fails, report the missing `graphify` module (provided by the `graphifyy` package). Install it only when dependency installation is authorized by the current task; otherwise ask before installing. Use an existing project virtual environment or create `.venv` when it does not exist:
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install graphifyy
+source .venv/bin/activate
+python3 -c "import graphify"
+```
+
+Skip environment creation when reusing `.venv`; never replace an existing environment. Use that environment's Python for all subsequent snippets. Do not install into system Python or bypass its package protections. If installation or import fails, report the error and stop.
 
 ### Step 2 - Detect files
 
@@ -93,17 +107,15 @@ Then act on it:
 
 ### Step 3 - Extract entities and relationships
 
-**Before starting:** note whether `--mode deep` was given. You must pass `DEEP_MODE=true` to every subagent in Step B2 if it was. Track this from the original invocation - do not lose it.
+**Before starting:** note whether `--mode deep` was given. Apply `DEEP_MODE=true` to semantic extraction, including every authorized subagent in Step B2.
 
-This step has two parts: **structural extraction** (deterministic, free) and **semantic extraction** (Claude, costs tokens).
+This step has two parts: **structural extraction** (deterministic, free) and **semantic extraction** (the current agent, costs tokens).
 
-**Run Part A (AST) and Part B (semantic) in parallel. Dispatch all semantic subagents AND start AST extraction in the same message. Both can run simultaneously since they operate on different file types. Merge results in Part C as before.**
-
-Note: Parallelizing AST + semantic saves 5-15s on large corpora. AST is deterministic and fast; start it while subagents are processing docs/papers.
+Run Part A then Part B in the current session by default. With authorized orchestration, they may run concurrently; merge results in Part C in either mode.
 
 #### Part A - Structural extraction for code files
 
-For any code files detected, run AST extraction in parallel with Part B subagents:
+For any code files detected, run AST extraction:
 
 ```bash
 python3 -c "
@@ -127,21 +139,15 @@ else:
 "
 ```
 
-#### Part B - Semantic extraction (parallel subagents)
+#### Part B - Semantic extraction (single agent by default)
 
 **Fast path:** If detection found zero docs, papers, and images (code-only corpus), skip Part B entirely and go straight to Part C. AST handles code - there is nothing for semantic subagents to do.
 
-**MANDATORY: You MUST use the Agent tool here. Reading files yourself one-by-one is forbidden - it is 5-10x slower. If you do not use the Agent tool you are doing this wrong.**
-
-Before dispatching subagents, print a timing estimate:
-- Load `total_words` and file counts from `.graphify_detect.json`
-- Estimate agents needed: `ceil(uncached_non_code_files / 22)` (chunk size is 20-25)
-- Estimate time: ~45s per agent batch (they run in parallel, so total ≈ 45s × ceil(agents/parallel_limit))
-- Print: "Semantic extraction: ~N files → X agents, estimated ~Ys"
+Read and extract the uncached files in the current session. If the user has authorized orchestration, use the agreed model and number of sessions through the host's delegation tools. Report the corpus size and chosen execution mode; do not invent a timing estimate.
 
 **Step B0 - Check extraction cache first**
 
-Before dispatching any subagents, check which files already have cached extraction results:
+Before extracting, check which non-code files already have cached results:
 
 ```bash
 python3 -c "
@@ -150,7 +156,7 @@ from graphify.cache import check_semantic_cache
 from pathlib import Path
 
 detect = json.loads(Path('.graphify_detect.json').read_text())
-all_files = [f for files in detect['files'].values() for f in files]
+all_files = [f for kind, files in detect['files'].items() if kind != 'code' for f in files]
 
 cached_nodes, cached_edges, uncached = check_semantic_cache(all_files)
 
@@ -161,28 +167,18 @@ print(f'Cache: {len(all_files)-len(uncached)} files hit, {len(uncached)} files n
 "
 ```
 
-Only dispatch subagents for files listed in `.graphify_uncached.txt`. If all files are cached, skip to Part C directly.
+Extract only files listed in `.graphify_uncached.txt`. If all files are cached, skip new extraction, merge the cached results in Step B3, then proceed to Part C.
 
 **Step B1 - Split into chunks**
 
 Load files from `.graphify_uncached.txt`. Split into chunks of 20-25 files each. Each image gets its own chunk (vision needs separate context).
 
-**Step B2 - Dispatch ALL subagents in a single message**
+**Step B2 - Extract each chunk**
 
-Call the Agent tool multiple times IN THE SAME RESPONSE - one call per chunk. This is the only way they run in parallel. If you make one Agent call, wait, then make another, you are doing it sequentially and defeating the purpose.
-
-Concrete example for 3 chunks:
-```
-[Agent tool call 1: files 1-15]
-[Agent tool call 2: files 16-30]  
-[Agent tool call 3: files 31-45]
-```
-All three in one message. Not three separate messages.
-
-Each subagent receives this exact prompt (substitute FILE_LIST, CHUNK_NUM, TOTAL_CHUNKS, and DEEP_MODE):
+By default, process chunks sequentially yourself using the extraction instructions below. With authorized orchestration, dispatch up to the agreed session count concurrently and use the agreed model. Give each worker these same instructions. Substitute FILE_LIST, CHUNK_NUM, TOTAL_CHUNKS, and DEEP_MODE in either mode:
 
 ```
-You are a graphify extraction subagent. Read the files listed and extract a knowledge graph fragment.
+Read the files listed and extract a graphify knowledge graph fragment.
 Output ONLY valid JSON matching the schema below - no explanation, no markdown fences, no preamble.
 
 Files (chunk CHUNK_NUM of TOTAL_CHUNKS):
@@ -235,11 +231,13 @@ Output exactly this JSON (no other text):
 
 **Step B3 - Collect, cache, and merge**
 
-Wait for all subagents. For each result:
-- If a subagent returned valid JSON with `nodes` and `edges`, include it and save each file's nodes/edges to the cache
-- If a subagent failed or returned invalid JSON, print a warning and skip that chunk - do not abort
+Collect every chunk result, waiting for workers only when orchestration was authorized:
+- If a chunk contains valid JSON with `nodes` and `edges`, include it and save each file's nodes/edges to the cache
+- If extraction failed or returned invalid JSON, print a warning and skip that chunk - do not abort
 
 If more than half the chunks failed, stop and tell the user.
+
+Write the successful chunks combined as `.graphify_semantic_new.json` with `nodes`, `edges`, `input_tokens`, and `output_tokens`. When there are no new results, write empty arrays and zero totals so a prior run's fragments cannot be reused accidentally.
 
 Save new results to cache:
 ```bash

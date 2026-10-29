@@ -6,8 +6,10 @@ import tempfile
 import unittest
 from pathlib import Path
 
-ROOT = next(parent for parent in Path(__file__).resolve().parents
-            if (parent / "scripts/evaluate-relevance.py").exists())
+ROOT = next((parent for parent in Path(__file__).resolve().parents
+             if (parent / "scripts/evaluate-relevance.py").is_file()), None)
+if ROOT is None:
+    raise unittest.SkipTest("Upstream-only relevance evaluator is not bundled with this skill")
 MODULE_PATH = ROOT / "scripts/evaluate-relevance.py"
 SPEC = importlib.util.spec_from_file_location("evaluate_relevance", MODULE_PATH)
 evaluator = importlib.util.module_from_spec(SPEC)

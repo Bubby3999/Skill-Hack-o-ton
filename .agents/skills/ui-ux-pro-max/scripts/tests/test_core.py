@@ -25,7 +25,9 @@ sys.path.insert(0, str(SCRIPTS_DIR))
 
 import core
 from core import BM25, detect_domain, search, search_stack, CSV_CONFIG, AVAILABLE_STACKS
-from design_system import DesignSystemGenerator, generate_design_system
+from design_system import (DesignSystemGenerator, generate_design_system,
+                           format_ascii_box, format_markdown, format_master_md,
+                           persist_design_system)
 
 
 class TestTokenizer(unittest.TestCase):
@@ -250,6 +252,44 @@ class TestDomainDetection(unittest.TestCase):
 
 
 class TestPersistence(unittest.TestCase):
+    def test_unmatched_query_labels_fallback_in_every_text_format(self):
+        design = DesignSystemGenerator().generate("qzxvplm zzywqq")
+        self.assertIsNone(design["source_identities"]["product"])
+        self.assertTrue(design["reasoning_default"])
+        for formatter in (format_ascii_box, format_markdown, format_master_md):
+            with self.subTest(formatter=formatter.__name__):
+                self.assertIn("no verified product match", formatter(design))
+
+    def test_unmatched_query_cannot_persist_even_with_force(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            for force in (False, True):
+                with self.subTest(force=force), self.assertRaisesRegex(ValueError, "no verified product match"):
+                    generate_design_system("qzxvplm zzywqq", persist=True, output_dir=tmp, force=force)
+            self.assertEqual(list(Path(tmp).iterdir()), [])
+
+    def test_shared_persistence_guard_preserves_an_existing_master(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            result = generate_design_system("saas dashboard", "Test Project", persist=True, output_dir=tmp)
+            master = Path(result["persistence"]["master_file"])
+            before = master.read_bytes()
+            fallback = DesignSystemGenerator().generate("qzxvplm zzywqq", "Test Project")
+            with self.assertRaisesRegex(ValueError, "no verified product match"):
+                persist_design_system(fallback, output_dir=tmp, force=True)
+            self.assertEqual(master.read_bytes(), before)
+
+    def test_cli_reports_unmatched_persistence_without_a_traceback(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            result = subprocess.run(
+                [sys.executable, str(SCRIPTS_DIR / "search.py"), "qzxvplm zzywqq",
+                 "--design-system", "--persist", "--output-dir", tmp, "--json"],
+                capture_output=True, text=True,
+            )
+            self.assertEqual(result.returncode, 2)
+            self.assertIn("no verified product match", result.stderr)
+            self.assertNotIn("Traceback", result.stderr)
+            self.assertEqual(result.stdout, "")
+            self.assertEqual(list(Path(tmp).iterdir()), [])
+
     def test_concurrent_non_force_persist_has_one_writer(self):
         with tempfile.TemporaryDirectory() as tmp:
             search_script = SCRIPTS_DIR / "search.py"
@@ -294,7 +334,7 @@ class TestPersistence(unittest.TestCase):
             # Existing page overrides are protected by the same default no-overwrite rule.
             page_content = page_file.read_text(encoding="utf-8")
             page_result2 = generate_design_system(
-                "different checkout", "Test Project", persist=True, page="Checkout", output_dir=tmp
+                "different checkout form", "Test Project", persist=True, page="Checkout", output_dir=tmp
             )
             self.assertEqual(page_result2["persistence"]["status"], "skipped_exists")
             self.assertEqual(page_file.read_text(encoding="utf-8"), page_content)

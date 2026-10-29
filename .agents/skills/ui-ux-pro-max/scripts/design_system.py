@@ -36,6 +36,7 @@ if sys.stderr.encoding and sys.stderr.encoding.lower() != 'utf-8':
 
 # ============ CONFIGURATION ============
 REASONING_FILE = "ui-reasoning.csv"
+FALLBACK_NOTICE = "Fallback guidance: no verified product match. Refine the query before persisting."
 
 SEARCH_CONFIG = {
     "product": {"max_results": 1},
@@ -713,6 +714,9 @@ def format_ascii_box(design_system: dict) -> str:
     lines.append("╚" + "═" * w + "╝")
     lines.append("┌" + "─" * w + "┐")
 
+    if not design_system.get("source_identities", {}).get("product"):
+        add_wrapped(FALLBACK_NOTICE)
+
     # Design Dials section (only if at least one dial was set)
     if any(dials.get(k) is not None for k in ("variance", "motion", "density")):
         lines.append(section_header("DESIGN DIALS", BOX_WIDTH))
@@ -829,6 +833,9 @@ def format_markdown(design_system: dict) -> str:
     lines = []
     lines.append(f"## Design System: {project}")
     lines.append("")
+
+    if not design_system.get("source_identities", {}).get("product"):
+        lines.extend([f"> {FALLBACK_NOTICE}", ""])
 
     # Design Dials section (only if at least one dial was set)
     if any(dials.get(k) is not None for k in ("variance", "motion", "density")):
@@ -1034,7 +1041,13 @@ def persist_design_system(design_system: dict, page: str = None, output_dir: str
     Returns:
         dict with created file paths and status. status is "skipped_exists" if
         MASTER.md already existed and force was not set.
+
+    Raises:
+        ValueError: If there is no verified product source, before any writes.
     """
+    if not design_system.get("source_identities", {}).get("product"):
+        raise ValueError(FALLBACK_NOTICE)
+
     base_dir = Path(output_dir) if output_dir else Path.cwd()
 
     # Use project name for project-specific folder. Coalesce falsy values
@@ -1118,6 +1131,9 @@ def format_master_md(design_system: dict) -> str:
     # Logic header
     lines.append("# Design System Master File")
     lines.append("")
+
+    if not design_system.get("source_identities", {}).get("product"):
+        lines.extend([f"> {FALLBACK_NOTICE}", ""])
     lines.append("> **LOGIC:** When building a specific page, first check `design-system/pages/[page-name].md`.")
     lines.append("> If that file exists, its rules **override** this Master file.")
     lines.append("> If not, strictly follow the rules below.")

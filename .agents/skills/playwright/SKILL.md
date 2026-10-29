@@ -33,12 +33,13 @@ Once `npx` is present, proceed with the wrapper script. A global install of `pla
 
 ## Skill path (set once)
 
+Resolve the absolute directory containing this `SKILL.md` from the host-provided skill path, then set `PWCLI` to its `scripts/playwright_cli.sh`. For this repo-local install, run this setup once from the repository root:
+
 ```bash
-export CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
-export PWCLI="$CODEX_HOME/skills/playwright/scripts/playwright_cli.sh"
+export PWCLI="$(pwd)/.agents/skills/playwright/scripts/playwright_cli.sh"
 ```
 
-User-scoped skills install under `$CODEX_HOME/skills` (default: `~/.codex/skills`).
+For a global or plugin install, use its actual skill directory. The absolute `PWCLI` path then works from any directory; no global skill installation is needed.
 
 ## Quick start
 

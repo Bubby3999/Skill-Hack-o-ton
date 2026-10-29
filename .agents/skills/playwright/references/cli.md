@@ -1,14 +1,13 @@
 # Playwright CLI Reference
 
-Use the wrapper script unless the CLI is already installed globally:
+Use the wrapper script unless the CLI is already installed globally. Resolve it from the directory containing this skill's `SKILL.md`. For this repo-local install, set the path once from the repository root:
 
 ```bash
-export CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
-export PWCLI="$CODEX_HOME/skills/playwright/scripts/playwright_cli.sh"
+export PWCLI="$(pwd)/.agents/skills/playwright/scripts/playwright_cli.sh"
 "$PWCLI" --help
 ```
 
-User-scoped skills install under `$CODEX_HOME/skills` (default: `~/.codex/skills`).
+For other install locations, set `PWCLI` to the actual absolute path to `scripts/playwright_cli.sh` inside that skill. It then works from any directory.
 
 Optional convenience alias:
 

@@ -1,13 +1,24 @@
 # README
 
-Prep for hacks: skills, templates, and workflow. 
+Hackathon preparation: skills and workflow.
 
-## Skills
+## Skills (tweaked slightly)
 
+agent-search, ponytail, ui-ux-pro-max, graphify...
 
-## Phases:
-1. Decide Idea
-2. Discuss execution plan + what will be built + tools
-3. Divide execution plan into plan chunks
-4. Execute plan chunks. Then repeat 
-5. Checks + Start to finish Testing + Wrap up with fixes
+## Tools
+
+playwright...
+
+## Phases
+
+1. Decide on an idea.
+2. Discuss the execution plan, what will be built, and the tools.
+3. Divide the execution plan into chunks.
+4. Execute the plan chunks, then repeat.
+5. Run checks and start-to-finish testing, then wrap up with fixes.
+
+## Set up
+
+- CLAUDE.md: finalize your skills
+- AGENTS.md: enter your lineup

@@ -126,18 +126,21 @@ if __name__ == "__main__":
                 "run a separate --stack query for stack-specific guidelines",
                 file=sys.stderr,
             )
-        result = generate_design_system(
-            args.query,
-            args.project_name,
-            args.format,
-            persist=args.persist,
-            page=args.page,
-            output_dir=args.output_dir,
-            variance=args.variance,
-            motion=args.motion,
-            density=args.density,
-            force=args.force,
-        )
+        try:
+            result = generate_design_system(
+                args.query,
+                args.project_name,
+                args.format,
+                persist=args.persist,
+                page=args.page,
+                output_dir=args.output_dir,
+                variance=args.variance,
+                motion=args.motion,
+                density=args.density,
+                force=args.force,
+            )
+        except ValueError as error:
+            parser.error(str(error))
 
         if args.json:
             print(json_module.dumps(

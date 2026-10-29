@@ -1,81 +1,70 @@
-"""Every script invocation in the shipped skill markdown resolves from the skill directory.
+"""Check entrypoints and execute the documented repo-local setup from another cwd."""
 
-Regression test for #474. The sub-skills ship in two copies (.claude/skills/<skill>/
-for the plugin, cli/assets/skills/<skill>/ for CLI installs) and land in layouts where
-neither the project root nor ~/.claude/skills/ is a valid anchor: the plugin cache, a
-project's .claude/skills/, ~/.claude/skills/ (--global), or a manual copy. The one anchor
-that exists in all of them is the skill's own directory, so documented commands use
-`scripts/<file>` for the skill's own scripts and `../<skill>/scripts/<file>` for a
-sibling sub-skill (the sub-skills are always installed side by side).
-
-This test extracts every `python|python3|node|bash <path>` invocation from every
-markdown file under both trees and asserts that the path is skill-relative and names a
-file that ships. The core skill's `${CLAUDE_PLUGIN_ROOT}/.claude/skills/...` form is
-resolved against the repository root, which is what that variable denotes under a
-plugin install - and accepted only in that file, because the sub-skills also ship
-through the CLI, where the variable does not exist. The grep-based path contract in check-asset-sync.yml is the negative
-side (no home-, project- or variable-rooted paths anywhere, code included); this is
-the positive side (every documented invocation points at a real file).
-"""
-
+import json
+import os
 import re
+import subprocess
+import sys
+import tempfile
 import unittest
 from pathlib import Path
 
-REPO = next(
-    parent for parent in Path(__file__).resolve().parents
-    if (parent / "scripts" / "generate-catalog-summary.py").is_file()
-)
-SKILL_TREES = ("cli/assets/skills", ".claude/skills")
-# The only file that may use the plugin-root form: hand-authored for the plugin install
-# and not shipped by the CLI (sync-assets.mjs mirrors data/ and scripts/, never SKILL.md).
-# (Built from segments: the path contract in check-asset-sync.yml scans this file too.)
-PLUGIN_ONLY_FILE = Path(".claude") / "skills" / "ui-ux-pro-max" / "SKILL.md"
-INVOCATION = re.compile(r'(?<![\w/.-])(?:python3?|node|bash)\s+"?([^\s"`\']+\.(?:py|cjs|js|mjs|sh))')
-PLUGIN_ROOT = "${CLAUDE_PLUGIN_ROOT}/"
+SKILLS = Path(__file__).resolve().parents[3]
+REPO = SKILLS.parent.parent
 
 
-def shipped_invocations():
-    for tree in SKILL_TREES:
-        for skill_dir in sorted((REPO / tree).iterdir()):
-            if not skill_dir.is_dir():
-                continue
-            for md in sorted(skill_dir.rglob("*.md")):
-                for lineno, line in enumerate(md.read_text(encoding="utf-8").splitlines(), 1):
-                    for match in INVOCATION.finditer(line):
-                        yield skill_dir, md, lineno, match.group(1)
-
-
-def resolve(skill_dir, md, path):
-    """Return (target, None) for a skill-relative path, or (None, reason)."""
-    if path.startswith(PLUGIN_ROOT):
-        if md.relative_to(REPO) != PLUGIN_ONLY_FILE:
-            return None, "the ${CLAUDE_PLUGIN_ROOT} form is only valid in the plugin-only core SKILL.md"
-        return REPO / path[len(PLUGIN_ROOT):], None
-    if path.startswith("scripts/"):
-        return skill_dir / path, None
-    if path.startswith("../"):
-        parts = path.split("/")
-        if len(parts) > 3 and parts[2] == "scripts" and (skill_dir.parent / parts[1]).is_dir():
-            return skill_dir.parent / parts[1] / "/".join(parts[2:]), None
-        return None, "a sibling invocation must be ../<skill>/scripts/<file> and the sibling must ship"
-    return None, "not skill-relative (expected scripts/<file> or ../<skill>/scripts/<file>)"
+def documented_setup(path, variable):
+    text = path.read_text(encoding="utf-8")
+    match = re.search(rf'^export {variable}=.*$', text, re.MULTILINE)
+    if match is None:
+        raise AssertionError(f"No setup for {variable} in {path}")
+    return match.group()
 
 
 class SkillScriptPathsTest(unittest.TestCase):
-    def test_every_shipped_markdown_invocation_resolves_from_the_skill_directory(self):
-        problems, seen = [], 0
-        for skill_dir, md, lineno, path in shipped_invocations():
-            seen += 1
-            target, reason = resolve(skill_dir, md, path)
-            if reason is None and not target.is_file():
-                reason = f"no such file: {target}"
-            if reason:
-                problems.append(f"{md.relative_to(REPO)}:{lineno}: {path} -- {reason}")
-        # Guard against a silently broken extractor: the two trees carry well over
-        # a hundred documented invocations between them.
-        self.assertGreater(seen, 100, f"extractor found only {seen} invocations")
-        self.assertEqual(problems, [], "\n" + "\n".join(problems))
+    def test_every_bundled_skill_has_an_uppercase_entrypoint(self):
+        skills = [path for path in SKILLS.iterdir() if path.is_dir()]
+        self.assertTrue(skills)
+        for skill in skills:
+            with self.subTest(skill=skill.name):
+                self.assertIn("SKILL.md", {path.name for path in skill.iterdir()})
+
+    def test_documented_ui_script_paths_exist(self):
+        skill = SKILLS / "ui-ux-pro-max"
+        text = (skill / "SKILL.md").read_text(encoding="utf-8")
+        paths = re.findall(r'python\s+"([^"\n]+\.py)"', text)
+        self.assertTrue(paths)
+        for path in paths:
+            with self.subTest(path=path):
+                self.assertTrue(path.startswith("${UI_UX_SKILL_DIR}/"))
+                self.assertTrue(Path(path.replace("${UI_UX_SKILL_DIR}", str(skill))).is_file())
+
+    def test_documented_ui_setup_runs_search_from_another_directory(self):
+        setup = documented_setup(SKILLS / "ui-ux-pro-max/SKILL.md", "UI_UX_SKILL_DIR")
+        with tempfile.TemporaryDirectory() as tmp:
+            result = subprocess.run(
+                ["bash", "-c", setup + '\ncd "$1"\n"$2" "$UI_UX_SKILL_DIR/scripts/search.py" "keyboard focus modal" --domain ux --json',
+                 "skill-path-test", tmp, sys.executable],
+                cwd=REPO, capture_output=True, text=True,
+            )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertGreater(json.loads(result.stdout)["count"], 0)
+
+    def test_documented_playwright_setup_invokes_the_bundled_wrapper(self):
+        for relative in ("SKILL.md", "references/cli.md"):
+            with self.subTest(document=relative), tempfile.TemporaryDirectory() as tmp:
+                fake_npx = Path(tmp) / "npx"
+                fake_npx.write_text('#!/bin/bash\nprintf "%s\\n" "$@"\n', encoding="utf-8")
+                fake_npx.chmod(0o755)
+                env = dict(os.environ, PATH=tmp + os.pathsep + os.environ.get("PATH", ""))
+                setup = documented_setup(SKILLS / "playwright" / relative, "PWCLI")
+                result = subprocess.run(
+                    ["bash", "-c", setup + '\ncd "$1"\n"$PWCLI" --help', "skill-path-test", tmp],
+                    cwd=REPO, env=env, capture_output=True, text=True,
+                )
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertIn("@playwright/cli", result.stdout.splitlines())
+                self.assertEqual(result.stdout.splitlines()[-1], "--help")
 
 
 if __name__ == "__main__":
