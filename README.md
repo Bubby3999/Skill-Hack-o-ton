@@ -128,13 +128,22 @@ agent-search, ponytail, ui-ux-pro-max, graphify...
 
 ## Tools
 
-playwright...
+| Area | Tools |
+|---|---|
+| Languages and formats | TypeScript, JavaScript, Python (skill scripts only), JSON, dotenv (`.env`) |
+| Frontend | React 19, Vite, React Router, Progressive Web App (`vite-plugin-pwa`, Workbox service worker) |
+| Maps | Leaflet (`react-leaflet`) with OpenStreetMap tiles to show distance between the user and clinics |
+| Backend | Node.js 24 (`node:http`, run with `tsx`), REST API (`/api/health`, `/api/chat`) |
+| Local AI | Ollama (local LLM runtime) with `qwen2.5:7b`, JSON-schema structured outputs |
+| Testing | Vitest (unit), Playwright (end-to-end), axe-core (accessibility) |
+| Hosting (demo) | Tailscale Funnel for a public HTTPS URL |
+| AI coding agents | Claude Code (Claude Opus 5.5, Claude Sonnet 5.5), Codex (GPT) |
 
 ## Phases
 
 1. [x] Decide on an idea. 
-2. [ ] Discuss the execution plan, what will be built, and the tools.
-3. [ ] Divide the execution plan into chunks.
+2. [x] Discuss the execution plan, what will be built, and the tools.
+3. [x] Divide the execution plan into chunks.
 4. [ ] Execute the plan chunks, then repeat.
 5. [ ] Run checks and start-to-finish testing, then wrap up with fixes.
 
