@@ -1,6 +1,7 @@
 # CLAUDE.md
 
-- Read AGENTS.md first to identify your role and the required skills.
+- PROJECTS.md is what we are building; STEP_PLAN.md is the phase plan.
+- Read AGENTS.md first to identify your role and the required skills. It's mandatory.
 - The process is planning (with Q&A to resolve ambiguities) --> writing the plan file --> coding sessions.
 - Orchestrate only when asked.
 - Do not spawn agents or orchestrate without deciding the model with me.
@@ -26,6 +27,9 @@
 - Plan what needs to be built, what the final output should look like, and what it should include.
 - Clear up ambiguities before finalizing.
 - Be concise when possible.
+- **The features** — what the user gets and how it behaves. Discussion first, open to many questions; no ambiguity leaves the session.
+- **The direction** — the decisions, constraints, watch-outs from the current code, and what is out of scope, each with its reason.
+- **Never the code changes.** Which files change and how is Code's Step 1's job
 
 ## Code
 

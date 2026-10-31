@@ -16,7 +16,7 @@
 - When research outside the repo or UI/UX examples are needed, propose a research agent.
 - If you want to orchestrate a batch, let me know so we can decide the number of sessions.
 
-## Models (Ranked by importance)
+## Models
 
 Primary models that are in play:
 

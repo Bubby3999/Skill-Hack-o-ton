@@ -12,11 +12,11 @@ playwright...
 
 ## Phases
 
-1. Decide on an idea.
-2. Discuss the execution plan, what will be built, and the tools.
-3. Divide the execution plan into chunks.
-4. Execute the plan chunks, then repeat.
-5. Run checks and start-to-finish testing, then wrap up with fixes.
+1. [x] Decide on an idea. 
+2. [ ] Discuss the execution plan, what will be built, and the tools.
+3. [ ] Divide the execution plan into chunks.
+4. [ ] Execute the plan chunks, then repeat.
+5. [ ] Run checks and start-to-finish testing, then wrap up with fixes.
 
 ## Set up
 
