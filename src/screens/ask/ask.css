@@ -1,0 +1,13 @@
+.ask-chat .bubble { min-width: 0; }
+.ask-chat .fit { min-width: 0; max-width: 100%; }
+.ask-chat .fit-badge { max-width: 100%; white-space: normal; }
+.ask-reply { white-space: pre-line; }
+.ask-chat .mini-result:focus-visible { outline-offset: calc(-1 * var(--space-1)); }
+.ask-composer .textarea { min-width: 0; }
+.ask-composer .send-btn:disabled,
+.ask-suggestions .chip:disabled {
+  cursor: not-allowed;
+  background: var(--color-sunken);
+  color: var(--color-ink-muted);
+}
+.ask-suggestions .chip { max-width: 100%; text-align: start; }
