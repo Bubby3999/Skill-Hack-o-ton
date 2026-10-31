@@ -1,0 +1,116 @@
+/* CareFit design tokens: the only place raw values live.
+   Components use these variables; no one-off colors or sizes.
+   Contrast for every text/background pair: CONTRAST.md (run contrast.py after edits). */
+
+:root {
+  /* ---- Color: neutrals ---- */
+  --color-ink: #14212B;          /* primary text */
+  --color-ink-muted: #4B5865;    /* secondary text, still 4.5:1 on every surface */
+  --color-paper: #F6F3EC;        /* app background (warm) */
+  --color-surface: #FFFFFF;      /* cards, inputs, sheets */
+  --color-sunken: #ECE8DF;       /* wells, board background */
+  --color-line: #DDD7CC;         /* decorative dividers only (not a control boundary) */
+  --color-line-strong: #6F7A85;  /* control borders: 3:1 on surface + paper */
+
+  /* ---- Color: brand ---- */
+  --color-brand: #0C5C56;        /* deep teal: primary buttons, links, "has" */
+  --color-brand-strong: #07433F; /* pressed */
+  --color-brand-tint: #E0EFEC;   /* selected backgrounds */
+  --color-on-brand: #FFFFFF;
+  --color-accent: #F2B33D;       /* marigold: FILL ONLY (behind ink), never text or a sole boundary */
+  --color-accent-tint: #FCEFD2;
+
+  /* ---- Color: status (always paired with an icon + text) ---- */
+  --color-ok: #1A7340;           /* verified / has */
+  --color-ok-tint: #E2F3E7;
+  --color-reported: #1F59A3;     /* patient-reported */
+  --color-reported-tint: #E4EDF9;
+  --color-unknown: #5A6470;      /* unknown */
+  --color-unknown-tint: #ECEEF1;
+  --color-missing: #B2261E;      /* not available / missing / errors / destructive */
+  --color-missing-tint: #FBE8E5;
+
+  /* ---- Focus + overlays ---- */
+  --focus-ring: var(--color-ink);   /* 3px outline */
+  --focus-halo: var(--color-accent);/* 2px band between element and ring */
+  --scrim: rgb(20 33 43 / 0.6);
+
+  /* ---- Map placeholder (decorative) ---- */
+  --map-land: #E9E4D8;
+  --map-park: #D3E2CC;
+  --map-water: #BFD7DF;
+  --map-road: #FFFFFF;
+  --map-road-edge: #D3CCBD;
+
+  /* ---- Type ---- */
+  --font-sans: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --text-xs: 0.875rem;   /* 14px: meta only (dates, sources) */
+  --text-sm: 0.9375rem;  /* 15px: secondary */
+  --text-md: 1.0625rem;  /* 17px: body */
+  --text-lg: 1.25rem;    /* 20px: card titles */
+  --text-xl: 1.5rem;     /* 24px: section titles */
+  --text-2xl: 1.875rem;  /* 30px: screen titles */
+  --text-3xl: 2.375rem;  /* 38px: welcome headline */
+  --leading-tight: 1.15;
+  --leading-snug: 1.3;
+  --leading-body: 1.5;
+  --weight-regular: 400;
+  --weight-medium: 600;
+  --weight-bold: 700;
+  --weight-heavy: 800;
+  --tracking-tight: -0.015em;
+
+  /* ---- Space (4pt grid, px so 200% text keeps room) ---- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --gutter: var(--space-4);      /* screen side padding */
+
+  /* ---- Radius ---- */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+
+  /* ---- Elevation ---- */
+  --shadow-sm: 0 1px 2px rgb(20 33 43 / 0.06), 0 1px 1px rgb(20 33 43 / 0.04);
+  --shadow-md: 0 6px 16px rgb(20 33 43 / 0.08), 0 1px 2px rgb(20 33 43 / 0.06);
+  --shadow-up: 0 -6px 20px rgb(20 33 43 / 0.10);   /* sticky bottom bars, sheets */
+
+  /* ---- Sizes ---- */
+  --tap-min: 44px;
+  --tap-comfy: 52px;             /* primary buttons */
+  --icon-sm: 16px;
+  --icon-md: 20px;
+  --icon-lg: 24px;
+  --meter-height: 10px;
+
+  /* ---- Motion ---- */
+  --dur-fast: 120ms;   /* press feedback */
+  --dur-base: 200ms;   /* expand, toggle */
+  --dur-slow: 280ms;   /* sheets, dialogs */
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+
+  /* ---- Layers ---- */
+  --z-sticky: 10;
+  --z-nav: 20;
+  --z-sheet: 40;
+  --z-toast: 60;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur-base: 0ms;
+    --dur-slow: 0ms;
+  }
+}

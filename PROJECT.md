@@ -24,6 +24,7 @@ Many wheelchair users go years without being weighed or examined on a table beca
 - Patients can't check any of this in advance, so they call around, guess, or skip care.
 
 ### Why now
+
 - HHS's updated **Section 504** rule (finalized 2024) set **July 8, 2026** as the deadline for most providers that receive HHS funding, including Medicare and Medicaid, to have at least one accessible exam table and one accessible weight scale.
 - State and local government clinics had until **August 9, 2026** under the matching DOJ ADA Title II rule.
 - These rules can now be enforced, but there's still no public way to see which clinics comply.
@@ -185,7 +186,7 @@ The profile stays in `localStorage` on the user's device. It leaves the device o
 |---|---|
 | Skills: `agent-search`, `ponytail`, `ui-ux-pro-max`, `graphify` (+ any others in `.agents/skills/`) | Agent workflow |
 | `CLAUDE.md` / `AGENTS.md` | Skill config and agent lineup |
-| Design models: Opus + Astra | Step 2 mockups |
+| Design model: Opus | Step 2 mockups |
 
 ### Legal & standards reference (for the letter and the pitch)
 | Source | Used for |

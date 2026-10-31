@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Welcome · CareFit</title>
+  <link rel="stylesheet" href="../tokens.css">
+  <link rel="stylesheet" href="../components.css">
+  <script src="../icons.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="app-bar">
+    <span class="brand"><svg class="brand__mark" aria-hidden="true"><use href="#i-logo"/></svg>CareFit</span>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <!-- Product preview built from real components. Decorative, so hidden from screen readers. -->
+    <div class="clinic-card" aria-hidden="true" style="margin-top: var(--space-2)">
+      <div class="clinic-card__head">
+        <span class="rank">1</span>
+        <p class="clinic-card__title">Lakeshore Women's Health</p>
+        <span class="clinic-card__distance">4.8 mi</span>
+      </div>
+      <div class="fit">
+        <span class="fit-badge fit-badge--strong"><svg class="icon"><use href="#i-circle-check"/></svg>Strong fit</span>
+        <span class="fit__count">5 of 6 needs</span>
+      </div>
+      <div class="fit-meter">
+        <span class="seg seg--has"></span><span class="seg seg--has"></span><span class="seg seg--has"></span>
+        <span class="seg seg--unknown seg--split"></span><span class="seg seg--has"></span><span class="seg seg--has"></span>
+      </div>
+      <div class="reasons">
+        <p class="reason reason--has"><svg class="icon"><use href="#i-circle-check"/></svg><span><span class="reason__label">Has:</span> Wheelchair scale, Adjustable table, Step-free entrance</span></p>
+      </div>
+    </div>
+
+    <div class="stack">
+      <h1 class="title-display">Find a doctor who can actually examine you.</h1>
+      <p class="lead">Tell CareFit what you need at a visit. See which clinics have it, and ask for it in writing.</p>
+    </div>
+
+    <ol class="feature-steps">
+      <li class="feature-step">
+        <span class="feature-step__num" aria-hidden="true">1</span>
+        <div><p class="strong">Set your access needs</p><p class="meta">Equipment, interpreters, quiet rooms, and more.</p></div>
+      </li>
+      <li class="feature-step">
+        <span class="feature-step__num" aria-hidden="true">2</span>
+        <div><p class="strong">See how each clinic fits</p><p class="meta">What they have, what's missing, what's unknown.</p></div>
+      </li>
+      <li class="feature-step">
+        <span class="feature-step__num" aria-hidden="true">3</span>
+        <div><p class="strong">Request accommodations</p><p class="meta">A ready-to-send letter in a few taps.</p></div>
+      </li>
+    </ol>
+
+    <p class="status-line"><svg class="icon" aria-hidden="true" style="color: var(--color-brand)"><use href="#i-lock"/></svg>Your profile stays on this phone.</p>
+  </main>
+
+  <div class="dock">
+    <div class="action-bar" role="region" aria-label="Page actions">
+      <a class="btn btn--primary btn--block" href="02-needs.html">Get started</a>
+      <a class="btn btn--ghost btn--block" href="04-find.html">Skip for now</a>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Ask · CareFit</title>
+  <link rel="stylesheet" href="../tokens.css">
+  <link rel="stylesheet" href="../components.css">
+  <script src="../icons.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="app-bar">
+    <span class="brand"><svg class="brand__mark" aria-hidden="true"><use href="#i-logo"/></svg>CareFit</span>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div class="stack">
+      <h1 class="title-1">Ask CareFit</h1>
+      <div class="notice">
+        <svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg>
+        <p>Your messages, access needs, and ZIP code go to an AI service to run the search. <strong>Your name and contact details are not sent.</strong> No medical advice.</p>
+      </div>
+    </div>
+
+    <section class="chat-log" role="log" aria-live="polite" aria-labelledby="chat-h">
+      <h2 class="visually-hidden" id="chat-h">Conversation</h2>
+
+      <div class="bubble bubble--bot">
+        <p class="bubble__who">CareFit</p>
+        <p>Tell me what kind of care you need and what matters at your visit. I'll turn it into a search.</p>
+      </div>
+
+      <div class="bubble bubble--user">
+        <p class="visually-hidden">You:</p>
+        <p>OB-GYN within 15 miles who can weigh me seated</p>
+      </div>
+
+      <div class="bubble bubble--bot">
+        <p class="bubble__who">CareFit</p>
+        <p>I searched for:</p>
+        <ul class="chip-row" aria-label="Filters applied">
+          <li class="tag tag--filter">OB-GYN</li>
+          <li class="tag tag--filter">Within 15 mi</li>
+          <li class="tag tag--filter">Wheelchair scale · required</li>
+          <li class="tag tag--filter">+ 5 needs from your profile</li>
+        </ul>
+        <p><strong>3 clinics</strong> have a wheelchair-accessible scale:</p>
+        <ul class="mini-results">
+          <li><a class="mini-result" href="08-clinic-detail.html"><span class="mini-result__name">Lakeshore Women's Health</span><span class="meta">4.8 mi</span><span class="fit-badge fit-badge--strong"><svg class="icon" aria-hidden="true"><use href="#i-circle-check"/></svg>Strong fit</span></a></li>
+          <li><a class="mini-result" href="08-clinic-detail.html"><span class="mini-result__name">Fruitvale OB-GYN Associates</span><span class="meta">1.1 mi</span><span class="fit-badge fit-badge--possible"><svg class="icon" aria-hidden="true"><use href="#i-circle-help"/></svg>Possible fit</span></a></li>
+          <li><a class="mini-result" href="08-clinic-detail.html"><span class="mini-result__name">Bayview Medical Center</span><span class="meta">7.9 mi</span><span class="fit-badge fit-badge--possible"><svg class="icon" aria-hidden="true"><use href="#i-circle-help"/></svg>Possible fit</span></a></li>
+        </ul>
+        <div class="row">
+          <a class="btn btn--secondary btn--sm" href="05-results-list.html">See results</a>
+          <a class="btn btn--ghost btn--sm" href="04-find.html">Change filters</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="chip-row" role="group" aria-label="Suggested questions">
+      <button type="button" class="chip">Which of these have a patient lift?</button>
+      <button type="button" class="chip">Is Lakeshore's scale verified?</button>
+    </div>
+  </main>
+
+  <div class="dock">
+    <form class="composer" action="11-assistant.html" aria-label="Message CareFit">
+      <label class="visually-hidden" for="msg">Message CareFit</label>
+      <textarea class="textarea" id="msg" name="msg" rows="1" placeholder="Ask about clinics or access needs"></textarea>
+      <button type="submit" class="send-btn" aria-label="Send"><svg class="icon" aria-hidden="true"><use href="#i-send"/></svg></button>
+    </form>
+    <nav class="bottom-nav" aria-label="Main">
+      <ul>
+        <li><a href="04-find.html"><span class="bottom-nav__icon"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg></span>Find</a></li>
+        <li><a href="11-assistant.html" aria-current="page"><span class="bottom-nav__icon"><svg class="icon" aria-hidden="true"><use href="#i-message-circle"/></svg></span>Ask</a></li>
+        <li><a href="12-profile.html"><span class="bottom-nav__icon"><svg class="icon" aria-hidden="true"><use href="#i-user"/></svg></span>Profile</a></li>
+      </ul>
+    </nav>
+  </div>
+</body>
+</html>

@@ -18,8 +18,8 @@
 
 **Execution**
 - [x] Pick a name → **CareFit**
-- [ ] Read the One-liner and Pitch in `PROJECT.md`; rewrite anything that doesn't sound like you
-- [ ] Find the hackathon's judging criteria; write each one down and map it to a CareFit feature
+- [x] Read the One-liner and Pitch in `PROJECT.md`; rewrite anything that doesn't sound like you
+- [x] Find the hackathon's judging criteria; write each one down and map it to a CareFit feature
 - [ ] Any criterion with no matching feature: add a feature or change the pitch
 - [ ] Review the Necessary / Optional split; move items between the lists if needed
 - [ ] Search the hackathon's project list (and the App Store) for name conflicts
@@ -38,15 +38,15 @@
 
 ## Step 2 — Frontend mockup designs
 
-**Goal:** One **master design template** that combines the best of both models' designs. The build follows it screen by screen.
+**Goal:** One **master design template**. The build follows it screen by screen.
 
-**Plan:** Give Opus and Astra the same brief, get two independent designs, score both with the same rubric, then merge them into the master. If the brief differs, the comparison means nothing.
+**Plan:** Opus only (no time for a two-model comparison). Opus writes the brief, designs every screen against it, then self-checks. Later fixes are surgical edits (Sol) made directly in `design/master/`.
 
 **Time box:** ___
 
 ### 2.1 Write the design brief → `design/BRIEF.md`
-- [ ] Product summary (copy from `PROJECT.md`)
-- [ ] Screen list:
+- [x] Product summary (copy from `PROJECT.md`)
+- [x] Screen list:
   1. Onboarding / profile setup
   2. Home / search, with a way into the assistant
   3. Results: list + map, with match badges
@@ -55,48 +55,35 @@
   6. AI assistant chat
   7. Profile / settings (edit needs, reset demo)
   8. *(Optional)* Report a gap
-- [ ] Data each screen shows (point to the fields in `PROJECT.md` → Build list #1 and #3)
-- [ ] Accessibility constraints:
+- [x] Data each screen shows (point to the fields in `PROJECT.md` → Build list #1 and #3)
+- [x] Accessibility constraints:
   - WCAG 2.2 AA contrast
   - 44×44px minimum tap targets
   - Layout survives 200% text size
   - No information by color alone
   - Visible focus states
   - Reduced-motion variant
-- [ ] Device frame: a phone viewport, e.g. 390×844
-- [ ] Ask for **design tokens** as a separate file: colors, type scale, spacing, radius, shadows
-- [ ] Ask for a **component list**
-- [ ] Specify the output format (same for both models)
+- [x] Device frame: a phone viewport, e.g. 390×844
+- [x] Output format: HTML/CSS, one file per screen, plus a board that shows them all
 
-### 2.2 Run both models
-- [ ] Run Opus with the brief → save to `design/opus/`
-- [ ] Run Astra with the brief → save to `design/astra/`
-- [ ] Don't give either model extra guidance partway through. If you re-run one, re-run both.
+### 2.2 Design the master (Opus) → `design/master/`
+- [x] **Design tokens** in one file → `design/master/tokens.css`: colors, type scale, spacing, radius, shadows, motion
+- [x] Shared component styles → `design/master/components.css`
+- [x] **Component list** → `design/master/components.html` (every component and its states) + `design/master/README.md`
+- [x] Every MVP screen → `design/master/screens/`, linked as a clickable prototype
+- [x] Board with all screens in phone frames → `design/master/index.html`
 
-### 2.3 Compare
-- [ ] Score each screen from each model 1–5 on:
-  - **Accessibility:** contrast, target size, labels, text-scaling
-  - **Clarity:** does a first-time user know what to do?
-  - **Match readability:** can you understand the fit score and reasons at a glance?
-  - **Visual polish**
-  - **Buildability:** can you build it within your time box?
-  - **Distinctiveness:** does it look like CareFit, or like a template?
-- [ ] Record the winner for each screen, plus specific elements worth taking from the other design
-- [ ] Save the scores to `design/COMPARISON.md`
-
-### 2.4 Merge into the master
-- [ ] Pick a base design
-- [ ] Port the chosen elements from the other design
-- [ ] Unify the tokens into one file → `design/master/tokens`
-- [ ] Final component list, e.g. button, chip, clinic card, match badge, feature-status row, bottom nav, text input, checkbox group, sheet/modal, chat bubble
-- [ ] Run every text/background color pair through a contrast checker
-- [ ] Save to `design/master/`
+### 2.3 Self-check
+- [x] Run every text/background color pair through a contrast checker → `design/master/CONTRAST.md`
+- [x] Screenshot every screen at 390×844, at 200% text, and on a 320px-wide phone
+- [x] Keyboard pass: visible focus, skip link, tab order
+- [x] Rubric review: accessibility, clarity, match readability, polish, buildability, distinctiveness
 
 **Decisions**
-- [ ] **Output format** from the models: HTML/CSS per screen, a single HTML file, or images. HTML is easiest to build from; images are faster to compare.
-- [ ] **Navigation pattern:** set it in the brief (bottom tabs or a single linear flow), or let both models propose one
-- [ ] **Base design:** the higher total score, or the one closer to what you can build?
-- [ ] **Themes:** light only, or light + dark/high-contrast
+- [x] **Output format:** HTML/CSS per screen + board. The easiest base to build from and to hand-edit.
+- [x] **Navigation pattern:** bottom tabs (Find · Ask · Profile) + a linear onboarding before them
+- [x] **Base design:** n/a (single model)
+- [x] **Themes:** light only, with semantic tokens so dark/high-contrast (optional feature) can be added later
 
 **Done when**
 - Every MVP screen exists in `design/master/`
@@ -402,10 +389,11 @@ All of this before any feature code.
 | 1 | Scope | | |
 | 1 | Clinic data (real vs fictional) | | |
 | 1 | Demo area | | |
-| 2 | Model output format | | |
-| 2 | Navigation pattern | | |
-| 2 | Base design | | |
-| 2 | Themes | | |
+| 2 | Design models | Opus only | No time to run and compare two models |
+| 2 | Output format | HTML/CSS per screen + board | Easiest to build from and to hand-edit |
+| 2 | Navigation pattern | Bottom tabs (Find · Ask · Profile) + linear onboarding | Three top-level areas; onboarding runs once |
+| 2 | Base design | n/a | Single model |
+| 2 | Themes | Light only, semantic tokens | Dark/high-contrast stays an optional feature |
 | 3 | Framework | | |
 | 3 | Language | | |
 | 3 | CSS approach | | |

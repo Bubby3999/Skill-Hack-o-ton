@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Request accommodations · Lakeshore Women's Health · CareFit</title>
+  <link rel="stylesheet" href="../tokens.css">
+  <link rel="stylesheet" href="../components.css">
+  <script src="../icons.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="app-bar">
+    <a class="back-link" href="08-clinic-detail.html"><svg class="icon" aria-hidden="true"><use href="#i-chevron-left"/></svg>Clinic</a>
+    <div class="app-bar__end"><p class="status-line" role="status"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Draft saved</p></div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div class="stack">
+      <h1 class="title-1">Request accommodations</h1>
+      <p class="lead">We'll draft a letter to <strong>Lakeshore Women's Health</strong>. Everything is filled in from your profile and can be changed.</p>
+    </div>
+
+    <form id="request" class="stack stack--lg" action="10-letter-preview.html">
+      <fieldset class="stack">
+        <legend class="title-3">Visit</legend>
+        <div class="field">
+          <label class="label" for="clinic">Clinic</label>
+          <input class="input" id="clinic" name="clinic" type="text" value="Lakeshore Women's Health">
+        </div>
+        <div class="field">
+          <label class="label" for="date">Appointment date</label>
+          <input class="input" id="date" name="date" type="date" value="2026-11-14">
+        </div>
+        <div class="field">
+          <label class="label" for="doctor">Doctor <span class="label__optional">(optional)</span></label>
+          <div class="select-wrap">
+            <select class="select" id="doctor" name="doctor">
+              <option selected>Dr. Ana Reyes</option>
+              <option>Dr. Priya Natarajan</option>
+              <option>Jordan Lee, CNM</option>
+              <option>Not sure yet</option>
+            </select>
+            <svg class="icon" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset aria-describedby="req-hint">
+        <legend class="title-3">What to request</legend>
+        <p class="hint" id="req-hint">Checked from your needs. Ones the clinic already has are unchecked.</p>
+        <ul class="check-list">
+          <li><label class="check"><input type="checkbox" name="req" value="scale" checked><span class="check__text">A wheelchair-accessible scale, so I can be weighed seated</span></label></li>
+          <li><label class="check"><input type="checkbox" name="req" value="exam-table" checked><span class="check__text">A height-adjustable exam table</span></label></li>
+          <li><label class="check"><input type="checkbox" name="req" value="lift" checked><span class="check__text">A patient lift, or staff trained to help with transfers</span></label></li>
+          <li><label class="check"><input type="checkbox" name="req" value="extended-time" checked><span class="check__text">Extra appointment time</span></label></li>
+          <li><label class="check"><input type="checkbox" name="req" value="entrance"><span class="check__text">Accessible entrance and parking<span class="small">Verified at this clinic</span></span></label></li>
+          <li><label class="check"><input type="checkbox" name="req" value="restroom"><span class="check__text">Accessible restroom<span class="small">Verified at this clinic</span></span></label></li>
+        </ul>
+      </fieldset>
+
+      <div class="field">
+        <label class="label" for="notes">Anything else? <span class="label__optional">(optional)</span></label>
+        <textarea class="textarea" id="notes" name="notes">I use a power wheelchair and need help transferring.</textarea>
+      </div>
+
+      <fieldset class="stack">
+        <legend class="title-3">Your details</legend>
+        <p class="hint">Only used in this letter. Saved on this phone.</p>
+        <div class="field">
+          <label class="label" for="name">Your name</label>
+          <input class="input" id="name" name="name" type="text" autocomplete="name" value="Maya Johnson">
+        </div>
+        <div class="field">
+          <label class="label" for="email">Email for replies</label>
+          <input class="input" id="email" name="email" type="email" autocomplete="email" value="maya.j@example.com">
+        </div>
+        <div class="field">
+          <label class="label" for="phone">Phone <span class="label__optional">(optional)</span></label>
+          <input class="input" id="phone" name="phone" type="tel" autocomplete="tel" value="(510) 555-0199">
+        </div>
+      </fieldset>
+    </form>
+  </main>
+
+  <div class="dock">
+    <div class="action-bar" role="region" aria-label="Page actions">
+      <button type="submit" form="request" class="btn btn--primary btn--block">Preview letter<svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></button>
+    </div>
+    <nav class="bottom-nav" aria-label="Main">
+      <ul>
+        <li><a href="04-find.html" aria-current="true"><span class="bottom-nav__icon"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg></span>Find</a></li>
+        <li><a href="11-assistant.html"><span class="bottom-nav__icon"><svg class="icon" aria-hidden="true"><use href="#i-message-circle"/></svg></span>Ask</a></li>
+        <li><a href="12-profile.html"><span class="bottom-nav__icon"><svg class="icon" aria-hidden="true"><use href="#i-user"/></svg></span>Profile</a></li>
+      </ul>
+    </nav>
+  </div>
+</body>
+</html>

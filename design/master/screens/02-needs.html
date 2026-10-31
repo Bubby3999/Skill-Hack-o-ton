@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Your access needs · Setup step 1 of 2 · CareFit</title>
+  <link rel="stylesheet" href="../tokens.css">
+  <link rel="stylesheet" href="../components.css">
+  <script src="../icons.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="app-bar">
+    <a class="back-link" href="01-welcome.html"><svg class="icon" aria-hidden="true"><use href="#i-chevron-left"/></svg>Back</a>
+    <div class="app-bar__end"><a class="btn btn--ghost btn--sm" href="04-find.html">Skip setup</a></div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div class="progress">
+      <p class="meta">Step 1 of 2</p>
+      <div class="progress__bar" aria-hidden="true"><span style="--value: 50%"></span></div>
+    </div>
+
+    <div class="stack">
+      <h1 class="title-1">What do you need at a visit?</h1>
+      <p class="lead">Check any that apply, then mark each one <strong>required</strong> or <strong>nice to have</strong>. You can change these later.</p>
+    </div>
+
+    <form class="stack" action="03-location.html">
+      <!-- Mobility -->
+      <details class="group" open>
+        <summary>
+          <span class="group__icon" aria-hidden="true"><svg class="icon"><use href="#i-accessibility"/></svg></span>
+          <span class="group__title">Mobility <span class="group__count">5 selected</span></span>
+          <svg class="icon group__chev" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+        </summary>
+        <div class="group__body">
+          <ul class="check-list">
+            <li class="need">
+              <label class="check"><input type="checkbox" name="needs" value="scale" checked><span>Wheelchair-accessible scale</span></label>
+              <fieldset class="segmented need__priority">
+                <legend class="visually-hidden">Wheelchair-accessible scale: how important?</legend>
+                <label class="segmented__opt"><input type="radio" name="p-scale" value="required" checked><span><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Required</span></label>
+                <label class="segmented__opt"><input type="radio" name="p-scale" value="nice"><span><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Nice to have</span></label>
+              </fieldset>
+            </li>
+            <li class="need">
+              <label class="check"><input type="checkbox" name="needs" value="exam-table" checked><span>Height-adjustable exam table</span></label>
+              <fieldset class="segmented need__priority">
+                <legend class="visually-hidden">Height-adjustable exam table: how important?</legend>
+                <label class="segmented__opt"><input type="radio" name="p-exam-table" value="required" checked><span><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Required</span></label>
+                <label class="segmented__opt"><input type="radio" name="p-exam-table" value="nice"><span><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Nice to have</span></label>
+              </fieldset>
+            </li>
+            <li class="need">
+              <label class="check"><input type="checkbox" name="needs" value="entrance" checked><span>Accessible entrance and parking</span></label>
+              <fieldset class="segmented need__priority">
+                <legend class="visually-hidden">Accessible entrance and parking: how important?</legend>
+                <label class="segmented__opt"><input type="radio" name="p-entrance" value="required" checked><span><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Required</span></label>
+                <label class="segmented__opt"><input type="radio" name="p-entrance" value="nice"><span><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Nice to have</span></label>
+              </fieldset>
+            </li>
+            <li class="need">
+              <label class="check"><input type="checkbox" name="needs" value="lift" checked><span>Patient lift or lift-compatible space</span></label>
+              <fieldset class="segmented need__priority">
+                <legend class="visually-hidden">Patient lift or lift-compatible space: how important?</legend>
+                <label class="segmented__opt"><input type="radio" name="p-lift" value="required"><span><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Required</span></label>
+                <label class="segmented__opt"><input type="radio" name="p-lift" value="nice" checked><span><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Nice to have</span></label>
+              </fieldset>
+            </li>
+            <li class="need">
+              <label class="check"><input type="checkbox" name="needs" value="restroom" checked><span>Accessible restroom</span></label>
+              <fieldset class="segmented need__priority">
+                <legend class="visually-hidden">Accessible restroom: how important?</legend>
+                <label class="segmented__opt"><input type="radio" name="p-restroom" value="required"><span><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Required</span></label>
+                <label class="segmented__opt"><input type="radio" name="p-restroom" value="nice" checked><span><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Nice to have</span></label>
+              </fieldset>
+            </li>
+            <li class="need">
+              <label class="check"><input type="checkbox" name="needs" value="turning-space"><span>Wheelchair turning space in exam rooms</span></label>
+              <fieldset class="segmented need__priority">
+                <legend class="visually-hidden">Wheelchair turning space: how important?</legend>
+                <label class="segmented__opt"><input type="radio" name="p-turning-space" value="required" checked><span><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Required</span></label>
+                <label class="segmented__opt"><input type="radio" name="p-turning-space" value="nice"><span><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Nice to have</span></label>
+              </fieldset>
+            </li>
+            <li class="need">
+              <label class="check"><input type="checkbox" name="needs" value="mammography"><span>Accessible mammography</span></label>
+              <fieldset class="segmented need__priority">
+                <legend class="visually-hidden">Accessible mammography: how important?</legend>
+                <label class="segmented__opt"><input type="radio" name="p-mammography" value="required" checked><span><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Required</span></label>
+                <label class="segmented__opt"><input type="radio" name="p-mammography" value="nice"><span><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Nice to have</span></label>
+              </fieldset>
+            </li>
+          </ul>
+        </div>
+      </details>
+
+      <!-- Communication -->
+      <details class="group">
+        <summary>
+          <span class="group__icon" aria-hidden="true"><svg class="icon"><use href="#i-ear"/></svg></span>
+          <span class="group__title">Communication <span class="group__count">None</span></span>
+          <svg class="icon group__chev" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+        </summary>
+        <div class="group__body">
+          <ul class="check-list">
+            <li class="need"><label class="check"><input type="checkbox" name="needs" value="asl"><span>In-person ASL interpreter</span></label></li>
+            <li class="need"><label class="check"><input type="checkbox" name="needs" value="vri"><span>Video remote interpreting (VRI)</span></label></li>
+            <li class="need"><label class="check"><input type="checkbox" name="needs" value="cart"><span>CART / live captioning</span></label></li>
+            <li class="need"><label class="check"><input type="checkbox" name="needs" value="tactile"><span>Tactile interpreter (DeafBlind)</span></label></li>
+            <li class="need"><label class="check"><input type="checkbox" name="needs" value="braille"><span>Braille or large-print materials</span></label></li>
+            <li class="need"><label class="check"><input type="checkbox" name="needs" value="plain-language"><span>Plain-language materials</span></label></li>
+          </ul>
+        </div>
+      </details>
+
+      <!-- Sensory & cognitive -->
+      <details class="group">
+        <summary>
+          <span class="group__icon" aria-hidden="true"><svg class="icon"><use href="#i-brain"/></svg></span>
+          <span class="group__title">Sensory &amp; cognitive <span class="group__count">1 selected</span></span>
+          <svg class="icon group__chev" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+        </summary>
+        <div class="group__body">
+          <ul class="check-list">
+            <li class="need"><label class="check"><input type="checkbox" name="needs" value="quiet-room"><span>Quiet or sensory-friendly room</span></label></li>
+            <li class="need"><label class="check"><input type="checkbox" name="needs" value="lighting"><span>Adjustable lighting</span></label></li>
+            <li class="need">
+              <label class="check"><input type="checkbox" name="needs" value="extended-time" checked><span>Extended appointment time</span></label>
+              <fieldset class="segmented need__priority">
+                <legend class="visually-hidden">Extended appointment time: how important?</legend>
+                <label class="segmented__opt"><input type="radio" name="p-extended-time" value="required"><span><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Required</span></label>
+                <label class="segmented__opt"><input type="radio" name="p-extended-time" value="nice" checked><span><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Nice to have</span></label>
+              </fieldset>
+            </li>
+            <li class="need"><label class="check"><input type="checkbox" name="needs" value="minimal-wait"><span>Minimal-wait scheduling</span></label></li>
+          </ul>
+        </div>
+      </details>
+
+      <!-- Other -->
+      <details class="group">
+        <summary>
+          <span class="group__icon" aria-hidden="true"><svg class="icon"><use href="#i-heart-handshake"/></svg></span>
+          <span class="group__title">Other <span class="group__count">None</span></span>
+          <svg class="icon group__chev" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+        </summary>
+        <div class="group__body">
+          <ul class="check-list">
+            <li class="need"><label class="check"><input type="checkbox" name="needs" value="service-animal"><span>Service animals welcome</span></label></li>
+            <li class="need"><label class="check"><input type="checkbox" name="needs" value="telehealth"><span>Telehealth option</span></label></li>
+          </ul>
+        </div>
+      </details>
+    </form>
+  </main>
+
+  <div class="dock">
+    <div class="action-bar" role="region" aria-label="Page actions">
+      <p class="meta" role="status">6 needs selected · 3 required</p>
+      <a class="btn btn--primary btn--block" href="03-location.html">Continue</a>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Report a gap · Lakeshore Women's Health · CareFit</title>
+  <link rel="stylesheet" href="../tokens.css">
+  <link rel="stylesheet" href="../components.css">
+  <script src="../icons.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="app-bar">
+    <a class="back-link" href="08-clinic-detail.html"><svg class="icon" aria-hidden="true"><use href="#i-chevron-left"/></svg>Clinic</a>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div class="stack stack--sm">
+      <h1 class="title-1">Report a gap</h1>
+      <p class="lead">Lakeshore Women's Health</p>
+    </div>
+
+    <form id="report" class="stack stack--lg" action="12-profile.html">
+      <fieldset>
+        <legend class="title-3">What was missing or didn't work?</legend>
+        <ul class="check-list">
+          <li><label class="check"><input type="checkbox" name="gap" value="scale"><span>Wheelchair-accessible scale</span></label></li>
+          <li><label class="check"><input type="checkbox" name="gap" value="exam-table"><span>Height-adjustable exam table</span></label></li>
+          <li><label class="check"><input type="checkbox" name="gap" value="entrance"><span>Accessible entrance and parking</span></label></li>
+          <li><label class="check"><input type="checkbox" name="gap" value="lift" checked><span>Patient lift or lift-compatible space</span></label></li>
+          <li><label class="check"><input type="checkbox" name="gap" value="restroom"><span>Accessible restroom</span></label></li>
+          <li><label class="check"><input type="checkbox" name="gap" value="extended-time"><span>Extended appointment time</span></label></li>
+          <li><label class="check"><input type="checkbox" name="gap" value="other"><span>Something else</span></label></li>
+        </ul>
+      </fieldset>
+
+      <div class="field">
+        <label class="label" for="visit">Date of visit</label>
+        <input class="input" id="visit" name="visit" type="date" value="2026-11-14">
+      </div>
+
+      <div class="field">
+        <label class="label" for="what">What happened? <span class="label__optional">(optional)</span></label>
+        <textarea class="textarea" id="what" name="what">No lift was available, so staff could not move me to the exam table.</textarea>
+      </div>
+
+      <p class="notice"><svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg><span>Saved on this phone only. It isn't sent to the clinic.</span></p>
+    </form>
+  </main>
+
+  <div class="dock">
+    <div class="action-bar" role="region" aria-label="Page actions">
+      <button type="submit" form="report" class="btn btn--primary btn--block"><svg class="icon" aria-hidden="true"><use href="#i-flag"/></svg>Save report</button>
+    </div>
+    <nav class="bottom-nav" aria-label="Main">
+      <ul>
+        <li><a href="04-find.html" aria-current="true"><span class="bottom-nav__icon"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg></span>Find</a></li>
+        <li><a href="11-assistant.html"><span class="bottom-nav__icon"><svg class="icon" aria-hidden="true"><use href="#i-message-circle"/></svg></span>Ask</a></li>
+        <li><a href="12-profile.html"><span class="bottom-nav__icon"><svg class="icon" aria-hidden="true"><use href="#i-user"/></svg></span>Profile</a></li>
+      </ul>
+    </nav>
+  </div>
+</body>
+</html>

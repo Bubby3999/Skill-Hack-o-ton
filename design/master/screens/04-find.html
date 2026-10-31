@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Find · CareFit</title>
+  <link rel="stylesheet" href="../tokens.css">
+  <link rel="stylesheet" href="../components.css">
+  <script src="../icons.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="app-bar">
+    <span class="brand"><svg class="brand__mark" aria-hidden="true"><use href="#i-logo"/></svg>CareFit</span>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div class="stack stack--sm">
+      <h1 class="title-1">Find a clinic that fits</h1>
+      <p class="row meta">
+        <svg class="icon icon--sm" aria-hidden="true"><use href="#i-map-pin"/></svg>
+        <span>Near <strong>94612</strong> · within <strong>15 mi</strong></span>
+        <a href="03-location.html">Change<span class="visually-hidden"> location</span></a>
+      </p>
+    </div>
+
+    <form class="stack stack--lg" action="05-results-list.html">
+      <div class="field">
+        <label class="label" for="care">Type of care</label>
+        <input class="input" id="care" name="care" type="search" value="OB-GYN" placeholder="e.g. primary care, OB-GYN" autocomplete="off">
+        <div class="chip-row" role="group" aria-label="Popular types of care">
+          <button type="button" class="chip">Primary care</button>
+          <button type="button" class="chip" aria-pressed="true"><svg class="icon chip__check" aria-hidden="true"><use href="#i-check"/></svg>OB-GYN</button>
+          <button type="button" class="chip">Imaging</button>
+          <button type="button" class="chip">Urgent care</button>
+        </div>
+      </div>
+
+      <section class="panel" aria-labelledby="needs-h">
+        <div class="section-head">
+          <h2 class="title-3" id="needs-h">Your needs</h2>
+          <a class="btn btn--ghost btn--sm" href="12-profile.html"><svg class="icon icon--sm" aria-hidden="true"><use href="#i-pencil"/></svg>Edit<span class="visually-hidden"> your needs</span></a>
+        </div>
+        <ul class="need-summary">
+          <li><span class="tag tag--required">Required</span>Wheelchair scale, Adjustable table, Step-free entrance</li>
+          <li><span class="tag tag--nice">Nice to have</span>Patient lift, Accessible restroom, Extra time</li>
+        </ul>
+      </section>
+
+      <button type="submit" class="btn btn--primary btn--block"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>Show matches</button>
+    </form>
+
+    <section class="panel panel--brand" aria-labelledby="ask-h">
+      <p class="eyebrow">Ask CareFit</p>
+      <h2 class="title-3" id="ask-h">Search in your own words</h2>
+      <p class="quote">“OB-GYN within 15 miles who can weigh me seated”</p>
+      <a class="btn btn--secondary" href="11-assistant.html"><svg class="icon" aria-hidden="true"><use href="#i-message-circle"/></svg>Ask a question</a>
+    </section>
+  </main>
+
+  <div class="dock">
+    <nav class="bottom-nav" aria-label="Main">
+      <ul>
+        <li><a href="04-find.html" aria-current="page"><span class="bottom-nav__icon"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg></span>Find</a></li>
+        <li><a href="11-assistant.html"><span class="bottom-nav__icon"><svg class="icon" aria-hidden="true"><use href="#i-message-circle"/></svg></span>Ask</a></li>
+        <li><a href="12-profile.html"><span class="bottom-nav__icon"><svg class="icon" aria-hidden="true"><use href="#i-user"/></svg></span>Profile</a></li>
+      </ul>
+    </nav>
+  </div>
+</body>
+</html>

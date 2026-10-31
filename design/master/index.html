@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CareFit · Master design board</title>
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="components.css">
+  <script src="icons.js" defer></script>
+  <style>
+    /* Board layout only; not part of the app. */
+    body { background: var(--color-sunken); }
+    main { padding: var(--space-8) var(--space-8) var(--space-16); gap: var(--space-12); }
+    .board-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: var(--space-4); max-width: 1200px; }
+    .flow { display: flex; flex-direction: column; gap: var(--space-4); }
+    .flow > h2 { font-size: var(--text-xl); }
+    .frames { display: flex; flex-wrap: wrap; gap: var(--space-8); }
+    .frame { display: flex; flex-direction: column; gap: var(--space-3); }
+    .frame figcaption { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-3); font-weight: var(--weight-bold); }
+    .bezel { width: 406px; padding: 8px; border-radius: 44px; background: var(--color-ink); box-shadow: var(--shadow-md); }
+    .bezel iframe { display: block; width: 390px; height: 844px; border: 0; border-radius: 36px; background: var(--color-paper); }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <main id="main" tabindex="-1">
+    <div class="board-head">
+      <div class="stack stack--sm">
+        <span class="brand" style="padding: 0"><svg class="brand__mark" aria-hidden="true"><use href="#i-logo"/></svg>CareFit</span>
+        <h1 class="title-1">Master design</h1>
+        <p class="lead">Every screen at 390×844. The frames are live, so click through them like a prototype.</p>
+      </div>
+      <div class="row">
+        <a class="btn btn--secondary" href="components.html">Components</a>
+        <a class="btn btn--ghost" href="tokens.css">Tokens</a>
+        <a class="btn btn--ghost" href="CONTRAST.md">Contrast report</a>
+        <a class="btn btn--ghost" href="../BRIEF.md">Brief</a>
+      </div>
+    </div>
+
+    <section class="flow" aria-labelledby="g1">
+      <h2 id="g1">Onboarding</h2>
+      <div class="frames">
+        <figure class="frame"><figcaption>01 · Welcome <a href="screens/01-welcome.html">Open</a></figcaption><div class="bezel"><iframe src="screens/01-welcome.html" title="01 Welcome" loading="lazy"></iframe></div></figure>
+        <figure class="frame"><figcaption>02 · Your needs <a href="screens/02-needs.html">Open</a></figcaption><div class="bezel"><iframe src="screens/02-needs.html" title="02 Your needs" loading="lazy"></iframe></div></figure>
+        <figure class="frame"><figcaption>03 · Location <a href="screens/03-location.html">Open</a></figcaption><div class="bezel"><iframe src="screens/03-location.html" title="03 Location" loading="lazy"></iframe></div></figure>
+      </div>
+    </section>
+
+    <section class="flow" aria-labelledby="g2">
+      <h2 id="g2">Find</h2>
+      <div class="frames">
+        <figure class="frame"><figcaption>04 · Find (home) <a href="screens/04-find.html">Open</a></figcaption><div class="bezel"><iframe src="screens/04-find.html" title="04 Find" loading="lazy"></iframe></div></figure>
+        <figure class="frame"><figcaption>05 · Results list <a href="screens/05-results-list.html">Open</a></figcaption><div class="bezel"><iframe src="screens/05-results-list.html" title="05 Results list" loading="lazy"></iframe></div></figure>
+        <figure class="frame"><figcaption>06 · Results map <a href="screens/06-results-map.html">Open</a></figcaption><div class="bezel"><iframe src="screens/06-results-map.html" title="06 Results map" loading="lazy"></iframe></div></figure>
+        <figure class="frame"><figcaption>07 · No matches <a href="screens/07-results-empty.html">Open</a></figcaption><div class="bezel"><iframe src="screens/07-results-empty.html" title="07 No matches" loading="lazy"></iframe></div></figure>
+      </div>
+    </section>
+
+    <section class="flow" aria-labelledby="g3">
+      <h2 id="g3">Clinic and letter</h2>
+      <div class="frames">
+        <figure class="frame"><figcaption>08 · Clinic detail <a href="screens/08-clinic-detail.html">Open</a></figcaption><div class="bezel"><iframe src="screens/08-clinic-detail.html" title="08 Clinic detail" loading="lazy"></iframe></div></figure>
+        <figure class="frame"><figcaption>09 · Request form <a href="screens/09-request-form.html">Open</a></figcaption><div class="bezel"><iframe src="screens/09-request-form.html" title="09 Request form" loading="lazy"></iframe></div></figure>
+        <figure class="frame"><figcaption>10 · Letter preview <a href="screens/10-letter-preview.html">Open</a></figcaption><div class="bezel"><iframe src="screens/10-letter-preview.html" title="10 Letter preview" loading="lazy"></iframe></div></figure>
+        <figure class="frame"><figcaption>13 · Report a gap (optional) <a href="screens/13-report-gap.html">Open</a></figcaption><div class="bezel"><iframe src="screens/13-report-gap.html" title="13 Report a gap" loading="lazy"></iframe></div></figure>
+      </div>
+    </section>
+
+    <section class="flow" aria-labelledby="g4">
+      <h2 id="g4">Ask and Profile</h2>
+      <div class="frames">
+        <figure class="frame"><figcaption>11 · Ask (assistant) <a href="screens/11-assistant.html">Open</a></figcaption><div class="bezel"><iframe src="screens/11-assistant.html" title="11 Ask" loading="lazy"></iframe></div></figure>
+        <figure class="frame"><figcaption>12 · Profile <a href="screens/12-profile.html">Open</a></figcaption><div class="bezel"><iframe src="screens/12-profile.html" title="12 Profile" loading="lazy"></iframe></div></figure>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

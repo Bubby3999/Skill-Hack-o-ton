@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Components · CareFit master design</title>
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="components.css">
+  <script src="icons.js" defer></script>
+  <style>
+    /* Sheet layout only; not part of the app. */
+    main { max-width: 760px; width: 100%; margin: 0 auto; gap: var(--space-12); padding-block: var(--space-8); }
+    .spec { display: flex; flex-direction: column; gap: var(--space-4); }
+    .spec > h2 { padding-bottom: var(--space-2); border-bottom: 2px solid var(--color-ink); }
+    .row-spec { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
+    .label-spec { font-size: var(--text-xs); color: var(--color-ink-muted); font-family: ui-monospace, monospace; }
+    .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--space-3); }
+    .swatch { border: 1px solid var(--color-line); border-radius: var(--radius-md); overflow: hidden; background: var(--color-surface); }
+    .swatch > div { height: 56px; }
+    .swatch p { padding: var(--space-2) var(--space-3); font-size: var(--text-xs); }
+    .phone-col { max-width: 390px; display: flex; flex-direction: column; gap: var(--space-3); }
+    .demo-focus { outline: 3px solid var(--focus-ring); outline-offset: 2px; box-shadow: 0 0 0 2px var(--focus-halo); }
+    .static-dialog { position: static; display: block; margin: 0; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="app-bar">
+    <a class="back-link" href="index.html"><svg class="icon" aria-hidden="true"><use href="#i-chevron-left"/></svg>Board</a>
+    <span class="app-bar__title">Components</span>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div class="stack">
+      <h1 class="title-1">CareFit components</h1>
+      <p class="lead">Every component and state used in the screens. Styles: <code>components.css</code>. Values: <code>tokens.css</code>.</p>
+    </div>
+
+    <!-- Color -->
+    <section class="spec" aria-labelledby="h-color">
+      <h2 class="title-2" id="h-color">Color</h2>
+      <div class="swatches">
+        <div class="swatch"><div style="background: var(--color-ink)"></div><p><strong>ink</strong><br>Text, required tag</p></div>
+        <div class="swatch"><div style="background: var(--color-ink-muted)"></div><p><strong>ink-muted</strong><br>Secondary text</p></div>
+        <div class="swatch"><div style="background: var(--color-paper)"></div><p><strong>paper</strong><br>App background</p></div>
+        <div class="swatch"><div style="background: var(--color-surface)"></div><p><strong>surface</strong><br>Cards, inputs</p></div>
+        <div class="swatch"><div style="background: var(--color-sunken)"></div><p><strong>sunken</strong><br>Wells</p></div>
+        <div class="swatch"><div style="background: var(--color-line-strong)"></div><p><strong>line-strong</strong><br>Control borders</p></div>
+        <div class="swatch"><div style="background: var(--color-brand)"></div><p><strong>brand</strong><br>Actions, links, has</p></div>
+        <div class="swatch"><div style="background: var(--color-brand-tint)"></div><p><strong>brand-tint</strong><br>Selected, notices</p></div>
+        <div class="swatch"><div style="background: var(--color-accent)"></div><p><strong>accent</strong><br>Fill only: step numbers, focus halo</p></div>
+        <div class="swatch"><div style="background: var(--color-ok)"></div><p><strong>ok</strong><br>Verified, strong fit</p></div>
+        <div class="swatch"><div style="background: var(--color-reported)"></div><p><strong>reported</strong><br>Patient-reported</p></div>
+        <div class="swatch"><div style="background: var(--color-unknown)"></div><p><strong>unknown</strong><br>Unknown</p></div>
+        <div class="swatch"><div style="background: var(--color-missing)"></div><p><strong>missing</strong><br>Not available, errors</p></div>
+      </div>
+      <p class="meta">Every pair is checked in <a href="CONTRAST.md">CONTRAST.md</a>.</p>
+    </section>
+
+    <!-- Type -->
+    <section class="spec" aria-labelledby="h-type">
+      <h2 class="title-2" id="h-type">Type · Atkinson Hyperlegible Next</h2>
+      <p class="title-display">Display 38 / 800</p>
+      <p class="title-1">Title 1 · 30 / 800</p>
+      <p class="title-2">Title 2 · 24 / 700</p>
+      <p class="title-3">Title 3 · 20 / 700</p>
+      <p>Body · 17 / 400 · line height 1.5. Designed by the Braille Institute for low-vision readers.</p>
+      <p class="meta">Meta · 15 / 400</p>
+      <p class="small">Small · 14 / 400 · dates and sources only</p>
+    </section>
+
+    <!-- Buttons -->
+    <section class="spec" aria-labelledby="h-btn">
+      <h2 class="title-2" id="h-btn">Buttons</h2>
+      <p class="label-spec">.btn--primary (52px) · .btn--secondary · .btn--ghost · .btn--danger · .btn--danger-solid · disabled · focus</p>
+      <div class="row-spec">
+        <button class="btn btn--primary" type="button">Show matches</button>
+        <button class="btn btn--secondary" type="button">See results</button>
+        <button class="btn btn--ghost" type="button">Skip for now</button>
+      </div>
+      <div class="row-spec">
+        <button class="btn btn--danger" type="button"><svg class="icon" aria-hidden="true"><use href="#i-rotate-ccw"/></svg>Reset demo</button>
+        <button class="btn btn--danger-solid" type="button">Reset and start over</button>
+        <button class="btn btn--primary" type="button" disabled>Disabled</button>
+        <button class="btn btn--primary demo-focus" type="button">Focused</button>
+      </div>
+      <p class="label-spec">.icon-btn (44×44, needs aria-label) · .action tiles</p>
+      <div class="row-spec">
+        <button class="icon-btn" type="button" aria-label="Previous clinic"><svg class="icon" aria-hidden="true"><use href="#i-chevron-left"/></svg></button>
+        <button class="icon-btn icon-btn--surface" type="button" aria-label="Zoom in"><svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg></button>
+        <button class="send-btn" type="button" aria-label="Send"><svg class="icon" aria-hidden="true"><use href="#i-send"/></svg></button>
+      </div>
+      <div class="action-grid phone-col" style="display: grid">
+        <a class="action" href="#"><svg class="icon icon--lg" aria-hidden="true"><use href="#i-phone"/></svg>Call</a>
+        <a class="action" href="#"><svg class="icon icon--lg" aria-hidden="true"><use href="#i-navigation"/></svg>Directions</a>
+        <a class="action" href="#"><svg class="icon icon--lg" aria-hidden="true"><use href="#i-globe"/></svg>Website</a>
+      </div>
+    </section>
+
+    <!-- Chips & tags -->
+    <section class="spec" aria-labelledby="h-chip">
+      <h2 class="title-2" id="h-chip">Chips and tags</h2>
+      <p class="label-spec">.chip = toggle button (aria-pressed). Selected adds a check icon, not only color.</p>
+      <div class="chip-row">
+        <button class="chip" type="button">Primary care</button>
+        <button class="chip" type="button" aria-pressed="true"><svg class="icon chip__check" aria-hidden="true"><use href="#i-check"/></svg>OB-GYN</button>
+      </div>
+      <p class="label-spec">.tag = static label · --required · --nice · --filter</p>
+      <div class="row-spec">
+        <span class="tag">OB-GYN clinic</span>
+        <span class="tag tag--required">Required</span>
+        <span class="tag tag--nice">Nice to have</span>
+        <span class="tag tag--filter">Within 15 mi</span>
+      </div>
+    </section>
+
+    <!-- Status & fit -->
+    <section class="spec" aria-labelledby="h-status">
+      <h2 class="title-2" id="h-status">Feature status</h2>
+      <p class="label-spec">.status · icon + word, never color alone</p>
+      <div class="row-spec">
+        <span class="status status--verified"><svg class="icon" aria-hidden="true"><use href="#i-circle-check"/></svg>Verified</span>
+        <span class="status status--reported"><svg class="icon" aria-hidden="true"><use href="#i-user-check"/></svg>Patient-reported</span>
+        <span class="status status--unknown"><svg class="icon" aria-hidden="true"><use href="#i-circle-help"/></svg>Unknown</span>
+        <span class="status status--missing"><svg class="icon" aria-hidden="true"><use href="#i-circle-x"/></svg>Not available</span>
+      </div>
+      <div class="phone-col">
+        <ul class="feature-list">
+          <li class="feature-row">
+            <p class="feature-row__name">Wheelchair-accessible scale</p>
+            <div class="feature-row__status"><span class="status status--verified"><svg class="icon" aria-hidden="true"><use href="#i-circle-check"/></svg>Verified</span><span class="small">Sep 18, 2026 · Clinic phone call</span></div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="spec" aria-labelledby="h-fit">
+      <h2 class="title-2" id="h-fit">Fit: badge, meter, reasons</h2>
+      <p class="label-spec">Strong = all required has · Possible = no required missing, some unknown · Poor = a required need is missing</p>
+      <div class="row-spec">
+        <span class="fit-badge fit-badge--strong"><svg class="icon" aria-hidden="true"><use href="#i-circle-check"/></svg>Strong fit</span>
+        <span class="fit-badge fit-badge--possible"><svg class="icon" aria-hidden="true"><use href="#i-circle-help"/></svg>Possible fit</span>
+        <span class="fit-badge fit-badge--poor"><svg class="icon" aria-hidden="true"><use href="#i-circle-x"/></svg>Poor fit</span>
+      </div>
+      <p class="label-spec">.fit-meter · one segment per need, required first · filled = has · striped = unknown · outlined = missing · aria-hidden (the text says the same)</p>
+      <div class="phone-col">
+        <div class="fit-meter-groups">
+          <div class="fit-meter-group" style="--n: 3">
+            <div class="fit-meter"><span class="seg seg--has"></span><span class="seg seg--unknown"></span><span class="seg seg--missing"></span></div>
+            Required
+          </div>
+          <div class="fit-meter-group" style="--n: 3">
+            <div class="fit-meter"><span class="seg seg--has"></span><span class="seg seg--has"></span><span class="seg seg--unknown"></span></div>
+            Nice to have
+          </div>
+        </div>
+        <div class="reasons">
+          <p class="reason reason--has"><svg class="icon" aria-hidden="true"><use href="#i-circle-check"/></svg><span><span class="reason__label">Has:</span> Wheelchair scale, Accessible restroom</span></p>
+          <p class="reason reason--unknown"><svg class="icon" aria-hidden="true"><use href="#i-circle-help"/></svg><span><span class="reason__label">Unknown:</span> Adjustable table <strong>(required)</strong></span></p>
+          <p class="reason reason--missing"><svg class="icon" aria-hidden="true"><use href="#i-circle-x"/></svg><span><span class="reason__label">Missing:</span> Step-free entrance <strong>(required)</strong></span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Clinic card -->
+    <section class="spec" aria-labelledby="h-card">
+      <h2 class="title-2" id="h-card">Clinic card</h2>
+      <p class="label-spec">Whole card is one link (the title). Rank number matches the map pin.</p>
+      <div class="phone-col">
+        <article class="clinic-card" aria-labelledby="cc1">
+          <div class="clinic-card__head">
+            <span class="rank" aria-hidden="true">2</span>
+            <h3 class="clinic-card__title" id="cc1"><a class="card-link" href="screens/08-clinic-detail.html">Fruitvale OB-GYN Associates</a></h3>
+            <span class="clinic-card__distance">1.1 mi</span>
+          </div>
+          <p class="meta">OB-GYN clinic · Open until 5 pm</p>
+          <div class="fit">
+            <span class="fit-badge fit-badge--possible"><svg class="icon" aria-hidden="true"><use href="#i-circle-help"/></svg>Possible fit</span>
+            <span class="fit__count">4 of 6 needs</span>
+          </div>
+          <div class="fit-meter" aria-hidden="true">
+            <span class="seg seg--has"></span><span class="seg seg--unknown"></span><span class="seg seg--has"></span>
+            <span class="seg seg--missing seg--split"></span><span class="seg seg--has"></span><span class="seg seg--has"></span>
+          </div>
+          <div class="reasons">
+            <p class="reason reason--has"><svg class="icon" aria-hidden="true"><use href="#i-circle-check"/></svg><span><span class="reason__label">Has:</span> Wheelchair scale, Step-free entrance, Accessible restroom, Extra time</span></p>
+            <p class="reason reason--unknown"><svg class="icon" aria-hidden="true"><use href="#i-circle-help"/></svg><span><span class="reason__label">Unknown:</span> Adjustable table <strong>(required)</strong></span></p>
+            <p class="reason reason--missing"><svg class="icon" aria-hidden="true"><use href="#i-circle-x"/></svg><span><span class="reason__label">Missing:</span> Patient lift</span></p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Forms -->
+    <section class="spec" aria-labelledby="h-form">
+      <h2 class="title-2" id="h-form">Form fields</h2>
+      <div class="phone-col">
+        <div class="field">
+          <label class="label" for="f1">ZIP code</label>
+          <input class="input" id="f1" type="text" inputmode="numeric" value="94612" aria-describedby="f1-h">
+          <p class="hint" id="f1-h">5 digits, e.g. 94612</p>
+        </div>
+        <div class="field">
+          <label class="label" for="f2">Email for replies</label>
+          <input class="input" id="f2" type="email" value="maya.j@" aria-invalid="true" aria-describedby="f2-e">
+          <p class="error" id="f2-e"><svg class="icon" aria-hidden="true"><use href="#i-triangle-alert"/></svg>Enter a full email address, like name@example.com</p>
+        </div>
+        <div class="field">
+          <label class="label" for="f3">Sort by</label>
+          <div class="select-wrap">
+            <select class="select" id="f3"><option>Best match</option><option>Nearest</option></select>
+            <svg class="icon" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="f4">Anything else? <span class="label__optional">(optional)</span></label>
+          <textarea class="textarea" id="f4">I use a power wheelchair.</textarea>
+        </div>
+        <fieldset>
+          <legend class="legend">Checkbox group (fieldset + legend)</legend>
+          <ul class="check-list">
+            <li><label class="check"><input type="checkbox" checked><span>Wheelchair-accessible scale</span></label></li>
+            <li><label class="check"><input type="checkbox"><span class="check__text">Accessible restroom<span class="small">Verified at this clinic</span></span></label></li>
+          </ul>
+        </fieldset>
+        <fieldset class="stack">
+          <legend class="legend">Segmented radios</legend>
+          <div class="segmented">
+            <label class="segmented__opt"><input type="radio" name="sg" checked><span><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Required</span></label>
+            <label class="segmented__opt"><input type="radio" name="sg"><span><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Nice to have</span></label>
+          </div>
+        </fieldset>
+      </div>
+    </section>
+
+    <!-- Disclosure -->
+    <section class="spec" aria-labelledby="h-group">
+      <h2 class="title-2" id="h-group">Disclosure group</h2>
+      <p class="label-spec">Native details/summary: announces expanded/collapsed.</p>
+      <div class="phone-col">
+        <details class="group">
+          <summary>
+            <span class="group__icon" aria-hidden="true"><svg class="icon"><use href="#i-ear"/></svg></span>
+            <span class="group__title">Communication <span class="group__count">None</span></span>
+            <svg class="icon group__chev" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+          </summary>
+          <ul class="group__body check-list">
+            <li><label class="check"><input type="checkbox"><span>In-person ASL interpreter</span></label></li>
+          </ul>
+        </details>
+      </div>
+    </section>
+
+    <!-- Notices -->
+    <section class="spec" aria-labelledby="h-notice">
+      <h2 class="title-2" id="h-notice">Notices and status</h2>
+      <div class="phone-col">
+        <p class="notice"><svg class="icon" aria-hidden="true"><use href="#i-shield-check"/></svg><span>Info / privacy notice.</span></p>
+        <div class="notice notice--error" role="alert"><svg class="icon" aria-hidden="true"><use href="#i-triangle-alert"/></svg><span><strong>Couldn't get your location.</strong> Enter a ZIP code instead.</span></div>
+        <p class="status-line" role="status"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Draft saved</p>
+      </div>
+    </section>
+
+    <!-- Chat -->
+    <section class="spec" aria-labelledby="h-chat">
+      <h2 class="title-2" id="h-chat">Chat</h2>
+      <p class="label-spec">Log has role="log" + aria-live="polite". Error bubble always offers manual filters.</p>
+      <div class="phone-col chat-log">
+        <div class="bubble bubble--bot"><p class="bubble__who">CareFit</p><p>Assistant message.</p></div>
+        <div class="bubble bubble--user"><p class="visually-hidden">You:</p><p>User message.</p></div>
+        <div class="bubble bubble--bot bubble--error">
+          <p class="bubble__who">CareFit</p>
+          <p class="row"><svg class="icon" aria-hidden="true" style="color: var(--color-missing)"><use href="#i-wifi-off"/></svg><strong>The assistant isn't responding.</strong></p>
+          <p>You can still search with filters. Nothing you typed was lost.</p>
+          <div class="row">
+            <a class="btn btn--secondary btn--sm" href="screens/04-find.html">Use filters</a>
+            <button class="btn btn--ghost btn--sm" type="button">Try again</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lists, nav -->
+    <section class="spec" aria-labelledby="h-nav">
+      <h2 class="title-2" id="h-nav">Lists and navigation</h2>
+      <div class="phone-col">
+        <a class="list-row link-card" href="screens/03-location.html">
+          <svg class="icon" aria-hidden="true"><use href="#i-map-pin"/></svg>
+          <span class="list-row__body"><span class="list-row__label">ZIP 94612</span><span class="list-row__value">Within 15 mi</span></span>
+          <svg class="icon" aria-hidden="true"><use href="#i-chevron-right"/></svg>
+        </a>
+        <nav class="view-toggle" aria-label="Results view (example)">
+          <a href="#" aria-current="true"><svg class="icon" aria-hidden="true"><use href="#i-list"/></svg>List</a>
+          <a href="#"><svg class="icon" aria-hidden="true"><use href="#i-map"/></svg>Map</a>
+        </nav>
+        <div class="dock" style="position: static">
+          <nav class="bottom-nav" aria-label="Bottom nav (example)">
+            <ul>
+              <li><a href="#" aria-current="page"><span class="bottom-nav__icon"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg></span>Find</a></li>
+              <li><a href="#"><span class="bottom-nav__icon"><svg class="icon" aria-hidden="true"><use href="#i-message-circle"/></svg></span>Ask</a></li>
+              <li><a href="#"><span class="bottom-nav__icon"><svg class="icon" aria-hidden="true"><use href="#i-user"/></svg></span>Profile</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </section>
+
+    <!-- Empty + dialog -->
+    <section class="spec" aria-labelledby="h-misc">
+      <h2 class="title-2" id="h-misc">Empty state and dialog</h2>
+      <div class="phone-col">
+        <div class="empty panel">
+          <div class="empty__icon" aria-hidden="true"><svg class="icon"><use href="#i-search"/></svg></div>
+          <h3 class="title-3">No full matches within 5 mi</h3>
+          <p class="lead">Always say why, then offer a one-tap fix.</p>
+        </div>
+        <div class="dialog static-dialog" role="group" aria-label="Dialog example">
+          <h3 class="title-2">Reset the demo?</h3>
+          <p class="lead">Confirm destructive actions. Cancel gets focus first.</p>
+          <div class="dialog__actions">
+            <button class="btn btn--danger-solid btn--block" type="button">Reset and start over</button>
+            <button class="btn btn--secondary btn--block" type="button">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

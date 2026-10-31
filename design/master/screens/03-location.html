@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Your location · Setup step 2 of 2 · CareFit</title>
+  <link rel="stylesheet" href="../tokens.css">
+  <link rel="stylesheet" href="../components.css">
+  <script src="../icons.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="app-bar">
+    <a class="back-link" href="02-needs.html"><svg class="icon" aria-hidden="true"><use href="#i-chevron-left"/></svg>Back</a>
+    <div class="app-bar__end"><a class="btn btn--ghost btn--sm" href="04-find.html">Skip setup</a></div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div class="progress">
+      <p class="meta">Step 2 of 2</p>
+      <div class="progress__bar" aria-hidden="true"><span style="--value: 100%"></span></div>
+    </div>
+
+    <div class="stack">
+      <h1 class="title-1">Where should we look?</h1>
+      <p class="lead">Used only to measure distance to clinics. It stays on this phone.</p>
+    </div>
+
+    <form class="stack stack--lg" action="04-find.html">
+      <div class="stack">
+        <button type="button" class="btn btn--secondary btn--block"><svg class="icon" aria-hidden="true"><use href="#i-locate"/></svg>Use my current location</button>
+        <p class="hint">Your phone will ask for permission first.</p>
+      </div>
+
+      <p class="divider-text">or</p>
+
+      <div class="field">
+        <label class="label" for="zip">ZIP code</label>
+        <input class="input" id="zip" name="zip" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="5" value="94612" aria-describedby="zip-hint">
+        <p class="hint" id="zip-hint">5 digits, e.g. 94612</p>
+      </div>
+
+      <fieldset class="stack">
+        <legend class="legend">How far can you travel?</legend>
+        <div class="segmented segmented--grid">
+          <label class="segmented__opt"><input type="radio" name="radius" value="5"><span><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>5 mi</span></label>
+          <label class="segmented__opt"><input type="radio" name="radius" value="10"><span><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>10 mi</span></label>
+          <label class="segmented__opt"><input type="radio" name="radius" value="15" checked><span><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>15 mi</span></label>
+          <label class="segmented__opt"><input type="radio" name="radius" value="25"><span><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>25 mi</span></label>
+          <label class="segmented__opt"><input type="radio" name="radius" value="50"><span><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>50 mi</span></label>
+        </div>
+      </fieldset>
+
+      <p class="notice"><svg class="icon" aria-hidden="true"><use href="#i-info"/></svg><span>Your name and contact details are only needed for request letters. We'll ask when you write one.</span></p>
+    </form>
+  </main>
+
+  <div class="dock">
+    <div class="action-bar" role="region" aria-label="Page actions">
+      <a class="btn btn--primary btn--block" href="04-find.html">Show clinics near me</a>
+    </div>
+  </div>
+</body>
+</html>

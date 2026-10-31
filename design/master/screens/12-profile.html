@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Profile · CareFit</title>
+  <link rel="stylesheet" href="../tokens.css">
+  <link rel="stylesheet" href="../components.css">
+  <script src="../icons.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="app-bar">
+    <span class="brand"><svg class="brand__mark" aria-hidden="true"><use href="#i-logo"/></svg>CareFit</span>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div class="stack">
+      <h1 class="title-1">Profile</h1>
+      <p class="notice"><svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg><span>Saved on this phone only. Nothing leaves it unless you use Ask.</span></p>
+    </div>
+
+    <section class="stack" aria-labelledby="needs-h">
+      <div class="section-head">
+        <h2 class="title-2" id="needs-h">Access needs</h2>
+        <a class="btn btn--ghost btn--sm" href="02-needs.html"><svg class="icon icon--sm" aria-hidden="true"><use href="#i-pencil"/></svg>Edit<span class="visually-hidden"> access needs</span></a>
+      </div>
+      <ul class="list">
+        <li class="list-row"><span class="list-row__body"><span class="list-row__label">Wheelchair-accessible scale</span></span><span class="tag tag--required">Required</span></li>
+        <li class="list-row"><span class="list-row__body"><span class="list-row__label">Height-adjustable exam table</span></span><span class="tag tag--required">Required</span></li>
+        <li class="list-row"><span class="list-row__body"><span class="list-row__label">Accessible entrance and parking</span></span><span class="tag tag--required">Required</span></li>
+        <li class="list-row"><span class="list-row__body"><span class="list-row__label">Patient lift or lift-compatible space</span></span><span class="tag tag--nice">Nice to have</span></li>
+        <li class="list-row"><span class="list-row__body"><span class="list-row__label">Accessible restroom</span></span><span class="tag tag--nice">Nice to have</span></li>
+        <li class="list-row"><span class="list-row__body"><span class="list-row__label">Extended appointment time</span></span><span class="tag tag--nice">Nice to have</span></li>
+      </ul>
+    </section>
+
+    <section class="stack" aria-labelledby="loc-h">
+      <h2 class="title-2" id="loc-h">Location</h2>
+      <a class="list-row link-card" href="03-location.html">
+        <svg class="icon" aria-hidden="true"><use href="#i-map-pin"/></svg>
+        <span class="list-row__body"><span class="list-row__label">ZIP 94612</span><span class="list-row__value">Within 15 mi</span></span>
+        <svg class="icon" aria-hidden="true"><use href="#i-chevron-right"/></svg>
+      </a>
+    </section>
+
+    <section class="stack" aria-labelledby="details-h">
+      <div class="section-head">
+        <h2 class="title-2" id="details-h">Details for letters</h2>
+        <a class="btn btn--ghost btn--sm" href="09-request-form.html"><svg class="icon icon--sm" aria-hidden="true"><use href="#i-pencil"/></svg>Edit<span class="visually-hidden"> details for letters</span></a>
+      </div>
+      <dl class="list">
+        <div class="list-row"><dt class="list-row__body"><span class="list-row__value">Name</span></dt><dd class="list-row__label">Maya Johnson</dd></div>
+        <div class="list-row"><dt class="list-row__body"><span class="list-row__value">Email</span></dt><dd class="list-row__label">maya.j@example.com</dd></div>
+        <div class="list-row"><dt class="list-row__body"><span class="list-row__value">Phone</span></dt><dd class="list-row__label">(510) 555-0199</dd></div>
+      </dl>
+    </section>
+
+    <section class="stack" aria-labelledby="letters-h">
+      <h2 class="title-2" id="letters-h">Saved letters</h2>
+      <a class="list-row link-card" href="10-letter-preview.html">
+        <svg class="icon" aria-hidden="true"><use href="#i-file-text"/></svg>
+        <span class="list-row__body"><span class="list-row__label">Lakeshore Women's Health</span><span class="list-row__value">Draft · visit on Nov 14</span></span>
+        <svg class="icon" aria-hidden="true"><use href="#i-chevron-right"/></svg>
+      </a>
+    </section>
+
+    <section class="panel" aria-labelledby="demo-h">
+      <h2 class="title-3" id="demo-h">Demo</h2>
+      <p class="meta">Clears your profile, letters, and reports from this phone and restarts setup.</p>
+      <button type="button" class="btn btn--danger btn--block" id="reset-open"><svg class="icon" aria-hidden="true"><use href="#i-rotate-ccw"/></svg>Reset demo</button>
+    </section>
+  </main>
+
+  <dialog class="dialog" id="reset-dialog" aria-labelledby="reset-h" aria-describedby="reset-d">
+    <h2 class="title-2" id="reset-h">Reset the demo?</h2>
+    <p class="lead" id="reset-d">Your needs, location, letters, and reports will be deleted from this phone. This can't be undone.</p>
+    <form method="dialog" class="dialog__actions">
+      <a class="btn btn--danger-solid btn--block" href="01-welcome.html">Reset and start over</a>
+      <button class="btn btn--secondary btn--block" value="cancel" autofocus>Cancel</button>
+    </form>
+  </dialog>
+
+  <div class="dock">
+    <nav class="bottom-nav" aria-label="Main">
+      <ul>
+        <li><a href="04-find.html"><span class="bottom-nav__icon"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg></span>Find</a></li>
+        <li><a href="11-assistant.html"><span class="bottom-nav__icon"><svg class="icon" aria-hidden="true"><use href="#i-message-circle"/></svg></span>Ask</a></li>
+        <li><a href="12-profile.html" aria-current="page"><span class="bottom-nav__icon"><svg class="icon" aria-hidden="true"><use href="#i-user"/></svg></span>Profile</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <script>
+    // Native <dialog>: focus moves in, Esc closes, focus returns to the trigger.
+    const dlg = document.getElementById('reset-dialog');
+    document.getElementById('reset-open').addEventListener('click', () => dlg.showModal());
+  </script>
+</body>
+</html>
