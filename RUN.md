@@ -1,5 +1,7 @@
 # RUN.md — Step 4 build run
 
+> **Done (2026-10-31).** All four workers are merged. Results are in [`plans/RUN-LOG.md`](plans/RUN-LOG.md). Don't run it again.
+
 Runs on Loukik's Mac. Start it in a new Claude Code session at the repo root, on Opus 5.5 in auto mode, with: **`Orchestrate RUN.md`**.
 This file is the go-ahead to spawn agents. The models are already decided (below); don't ask about them and don't swap them, including on fix rounds.
 

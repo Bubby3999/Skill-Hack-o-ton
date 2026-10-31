@@ -184,6 +184,10 @@ All of this before any feature code.
 
 **Plan:** Four parallel workers run on Loukik's Mac: A, B, and D on GPT Sol through the Codex CLI, and C on Sonnet 5.5. An Opus orchestrator starts them by following [`RUN.md`](RUN.md). It merges each worker into `main` and pushes. It doesn't review the code; the team pulls, reviews, and tests. Scopes are in [`plans/STEP-3-SETUP.md`](plans/STEP-3-SETUP.md) → Worker scopes.
 
+**Status (2026-10-31):**
+- **The run:** all four workers merged into `main`, and the check passed after each merge. The orchestrated Codex runs were rejected by the ChatGPT-account login, so Loukik reran A, B and D in Codex by hand. Details: [`plans/RUN-LOG.md`](plans/RUN-LOG.md).
+- **In progress:** onboarding (01 Welcome, step progress, skip/resume) and Report a gap (13) are being built in a separate session, along with the fixes for the gaps the workers reported.
+
 **Time box:** ___
 
 ### Chunk loop (repeat for every chunk)
@@ -310,11 +314,13 @@ All of this before any feature code.
 
 **Goal:** Catch bugs and accessibility failures before the judges do. At an accessibility hackathon, an inaccessible app undercuts the pitch.
 
-**Plan:** Run automated checks, then manual accessibility checks, then edge cases, then triage and fix.
+**Plan:** Manual testing only, then submit (Step 6). `npm run check` already covers the automated checks in 5.1, so there's no separate automated pass. Run 5.2 and 5.3 by hand, then triage and fix.
 
 **Time box:** ___
 
 ### 5.1 Automated
+*Covered by `npm run check`: Vitest, plus Playwright and axe on every route. Lighthouse and the "only `/api/chat`" check are done by hand, if time allows.*
+
 - [ ] Vitest: match engine, storage module, letter generator
 - [ ] Playwright end-to-end tests:
   - onboarding → search → detail → letter
@@ -413,7 +419,9 @@ All of this before any feature code.
 | 4 | Match scoring rules | Mockup tiers; patient-reported = Has; Poor ranked, not excluded | Screens 05, 07, 08 already show them |
 | 4 | Seed clinic count | About 20 | Fills the map; checkable by hand |
 | 4 | Who runs the workers | Loukik's Mac; Opus orchestrator via `RUN.md`; A/B/D GPT Sol, C Sonnet 5.5; pushes to `main` | Tharak's machine lacked Node; mixes both harnesses |
-| 4 | Onboarding | Deferred; the app starts with the demo profile | Build if time |
+| 4 | Onboarding | Deferred during the run; now in progress in a separate session | Built after the four workers merged |
+| 4 | Report a gap (optional) | In progress in a separate session | |
+| 5 | Step 5 scope | Manual testing only, then submit | `npm run check` already covers the automated checks |
 | 5 | Minimum Lighthouse score | | |
 | 5 | What gets cut | | |
 | 6 | Live or video | | |
