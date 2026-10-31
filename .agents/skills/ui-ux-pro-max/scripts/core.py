@@ -243,6 +243,7 @@ _STOPWORDS = {
     "do", "be", "we", "it", "as", "the", "and", "for", "are", "was",
 }
 
+
 # Query/corpus normalization so common spelling variants match each other.
 # Keep this a plain dict (stdlib only, no fuzzy-matching dependency).
 _SYNONYMS = {
