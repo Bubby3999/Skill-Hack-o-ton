@@ -15,7 +15,7 @@ Planner: Opus 5.5 · Setup agent: Sonnet 5.5 (`claude-sonnet-5-5`), one session 
 | Host | Loukik's Mac | Ollama runs there; a serverless host can't reach a laptop |
 | HTTPS | Tailscale Funnel | Stable URL, so the installed PWA survives restarts; no interstitial page |
 | AI | Local Ollama behind `/api/chat`, with an explicit mock mode | No hosted LLM, no API keys |
-| Clinic data | ~20 fictional clinics in Oakland, all labeled **Demo data** | No false equipment claims about real businesses |
+| Clinic data | ~20 fictional clinics in Oakland. No "Demo data" label; screens stay as designed | No false equipment claims about real businesses |
 | Demo area | Oakland, default ZIP 94612 | Matches the mockups |
 | Scoring | The rules drawn in the mockups (§7) | Screens 05, 07, and 08 already show them |
 | Match engine | Built in setup, not by a worker | Workers B, C, and D all use it |
@@ -52,7 +52,7 @@ A component used by only one worker stays with that worker:
 
 ### 4. Contracts
 One module that every worker imports.
-- **Access features:** the 20 keys, full and short labels, and 4 categories from `design/BRIEF.md`. This is the canonical list.
+- **Access features:** the 19 keys, full and short labels, and 4 categories from `design/BRIEF.md`. This is the canonical list.
 - **Feature status:** `verified` · `patient-reported` · `unknown` · `not-available`.
 - **Profile** (PROJECT.md #1):
   - needs `{ key, priority: required | nice }`
@@ -113,7 +113,7 @@ A pure function with unit tests.
   - the four OB-GYN clinics in 05, with their distances from the 94612 centroid (±0.1 mi) and their statuses for Maya's needs
   - Lakeshore's full checklist in 08
   - two imaging centers within 5 mi that have no wheelchair-accessible scale (07)
-- Statuses are mixed across all 20 keys. `lastVerified` dates fall in 2026, before Oct 31. Sources are plain: "Clinic phone call", "Site visit", "Clinic website", "N patient reports".
+- Statuses are mixed across all 19 keys. `lastVerified` dates fall in 2026, before Oct 31. Sources are plain: "Clinic phone call", "Site visit", "Clinic website", "N patient reports".
 - Clinic and doctor names are fictional. Phones use (510) 555-01xx, websites use `example.org`, and every clinic has `isDemo: true`. Street names can be real Oakland streets, but never a real clinic's name or address.
 - A validation test checks that every clinic has coordinates, valid keys and statuses, and a specialty.
 
@@ -170,7 +170,6 @@ Onboarding (01 Welcome, step progress, skip/resume) is deferred and not part of 
   - fit summary from the match engine
   - checklist of the user's needs (required, then nice) with status, date, and source
   - other features collapsed; doctors; hours
-  - the **Demo data** label
   - Hide "Report a gap" unless screen 13 ships.
 - **Form:**
   - prefilled from the profile and the clinic

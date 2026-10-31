@@ -27,7 +27,7 @@
 
 **Decisions**
 - [ ] **Scope:** mobility-first headline with a multi-disability profile, or mobility only? Multi-disability reaches more users and fits the theme more broadly. Mobility only is simpler to build and pitch.
-- [x] **Clinic data:** real clinics labeled "Demo data", or fictional clinics in a real area? Real names make the demo feel real, but the equipment data is made up. Fictional avoids presenting false claims about real businesses. → **Fictional clinics in a real area**, labeled Demo data
+- [x] **Clinic data:** real clinics labeled "Demo data", or fictional clinics in a real area? Real names make the demo feel real, but the equipment data is made up. Fictional avoids presenting false claims about real businesses. → **Fictional clinics in a real area**
 - [x] **Demo area:** which city/ZIP the seed data covers → **Oakland, CA; default ZIP 94612**
 
 **Done when**
@@ -227,7 +227,6 @@ All of this before any feature code.
   - write `src/data/clinics.json`
 - [ ] Mix the statuses (verified / patient-reported / unknown / not-available) so matches vary
 - [ ] Include clinics that are close but a poor match, and farther but a perfect match (makes the demo more interesting)
-- [ ] Show a **Demo data** label in the UI
 
 **Done when:** every clinic has coordinates and valid fields.
 
@@ -397,7 +396,7 @@ All of this before any feature code.
 |---|---|---|---|
 | 1 | Name | CareFit | Simple; "Level" could be misread |
 | 1 | Scope | | |
-| 1 | Clinic data (real vs fictional) | Fictional, labeled Demo data | No false equipment claims about real businesses |
+| 1 | Clinic data (real vs fictional) | Fictional; no Demo data label (screens stay as designed) | No false equipment claims about real businesses |
 | 1 | Demo area | Oakland, ZIP 94612 | Matches the mockups |
 | 2 | Design models | Opus only | No time to run and compare two models |
 | 2 | Output format | HTML/CSS per screen + board | Easiest to build from and to hand-edit |

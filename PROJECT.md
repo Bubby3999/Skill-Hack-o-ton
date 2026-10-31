@@ -72,7 +72,6 @@ The profile stays in `localStorage` on the user's device. When the user messages
      - *Sensory / cognitive:* quiet or sensory-friendly room, adjustable lighting, extended appointment time, minimal-wait scheduling
      - *Other:* service animals welcome, telehealth option
    - Fictional demo dataset (~20 Oakland clinics), checked by a validation test
-   - Visible **Demo data** label anywhere made-up equipment data appears
 4. **Match engine**
    - Pure function: `(profile, clinic, userLocation) → { score, has[], missing[], unknown[], distance }`
    - Unit-tested
@@ -156,7 +155,7 @@ The profile stays in `localStorage` on the user's device. When the user messages
 | [CMS Provider Data: Doctors and Clinicians](https://data.cms.gov/provider-data/) | Doctors linked to group practices | Optional | Downloadable dataset |
 | Fictional data | Clinics invented for the demo (Oakland) | **Chosen** | Avoids presenting made-up equipment claims about real clinics |
 
-> Equipment and accommodation data for clinics doesn't exist publicly. That missing data is the problem CareFit solves. For the demo it's made up and must be labeled **Demo data**.
+> Equipment and accommodation data for clinics doesn't exist publicly. That missing data is the problem CareFit solves. For the demo, the clinics and their equipment data are fictional.
 
 ### AI
 | Source | Used for | Need | Notes |

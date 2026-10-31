@@ -26,3 +26,14 @@ Primary models that are in play:
    4. GPT Sol: the default code agent
    5. Claude Haiku: default agent for simple code and quick grab
    6. GPT Terra: quick grab + go or computer use.
+
+## Lineup (Step 3 onward)
+
+| Role | Model | Where | Does |
+|---|---|---|---|
+| Planner | Opus 5.5 | Loukik's Claude harness | plans, writes `plans/*` |
+| Setup (Code Agent) | Sonnet 5.5 | Loukik's Mac | builds the foundation (`plans/STEP-3-SETUP.md`) |
+| Orchestrator | Opus 5.5 | Tharak's machine | runs `RUN.md`: deploys workers, checks, merges, logs |
+| Workers A–D | Sonnet 5.5 | Tharak's machine | build screens from `plans/tasks/A.md`–`D.md` |
+
+Workers run unattended and edit only their own paths.
