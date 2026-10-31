@@ -1,0 +1,21 @@
+.clinic-identity, .clinic-contact, .clinic-request, .clinic-letter { overflow-wrap: anywhere; }
+.clinic-hours { display: grid; }
+.clinic-request legend { margin-bottom: var(--space-3); }
+.clinic-request .check-list { margin-top: var(--space-3); }
+.clinic-request .error-summary { display: block; }
+.clinic-request .error-summary ul { margin-top: var(--space-2); }
+.clinic-request .error-summary a { display: inline-flex; align-items: center; min-height: var(--tap-min); }
+.clinic-request .check input { scroll-margin-block: var(--space-16); }
+.clinic-letter p { white-space: pre-line; }
+.clinic-letter ul { overflow-wrap: anywhere; }
+
+@media print {
+  body:has(.clinic-letter) { display: block; background: var(--color-surface); }
+  body:has(.clinic-letter) .app-bar,
+  body:has(.clinic-letter) .dock,
+  body:has(.clinic-letter) .skip-link,
+  body:has(.clinic-letter) main > :not(.clinic-letter) { display: none; }
+  body:has(.clinic-letter) main { display: block; padding: 0; }
+  .clinic-letter { border: 0; border-radius: 0; box-shadow: none; padding: 0; color: var(--color-ink); }
+  .clinic-letter p, .clinic-letter li { break-inside: avoid; }
+}
