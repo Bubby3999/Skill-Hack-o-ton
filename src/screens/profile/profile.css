@@ -1,0 +1,24 @@
+.profile-letter-details .list-row {
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-1) var(--space-3);
+}
+
+.profile-letter-details dd {
+  min-width: 0;
+}
+
+.profile-needs-list .tag {
+  flex: none;
+  max-width: 50%;
+  white-space: normal;
+}
+
+.profile-needs-group .segmented__opt {
+  min-width: 0;
+}
+
+.profile-needs-group .segmented__opt input {
+  width: 100%;
+  height: 100%;
+}
