@@ -13,7 +13,7 @@ describe('assistant prompt and output schema', () => {
     const context = messages[0].content;
     expect(context).toContain('2026-09-18');
     expect(context).toContain('Clinic phone call');
-    expect(context).toContain('an absent accessFeatures key means unknown');
+    expect(context).toContain('A feature not listed is unknown');
     expect(context).toContain('patient-reported');
     expect(context).toContain('ZIP: 94612');
     expect(context).toContain(JSON.stringify(DEMO_PROFILE.needs));

@@ -72,6 +72,16 @@ export function parseProfile(v: unknown): Profile | null {
   return { needs, location, radius: v.radius, letter };
 }
 
+// ---- Onboarding (screens 01-03) ----
+/** needs / location: setup in progress at that step. done / skipped: never show setup again. */
+export type OnboardingStep = 'needs' | 'location' | 'done' | 'skipped';
+
+export interface OnboardingState {
+  step: OnboardingStep;
+  /** Needs picked in step 1, kept so setup can resume. */
+  needs: Need[];
+}
+
 // ---- Clinic ----
 export type ClinicType = 'clinic' | 'hospital' | 'urgent-care' | 'imaging';
 export const DAYS = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'] as const;

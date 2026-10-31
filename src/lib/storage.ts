@@ -3,7 +3,7 @@ const PREFIX = 'carefit:';
 const VERSION_KEY = `${PREFIX}v`;
 export const SCHEMA_VERSION = 1;
 
-export const KEYS = { profile: 'profile', drafts: 'drafts', reports: 'reports' } as const;
+export const KEYS = { profile: 'profile', drafts: 'drafts', reports: 'reports', onboarding: 'onboarding' } as const;
 export type StorageKey = (typeof KEYS)[keyof typeof KEYS];
 
 function store(): Storage | null {

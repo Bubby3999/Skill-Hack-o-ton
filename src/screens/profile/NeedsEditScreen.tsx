@@ -1,22 +1,29 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ActionBar, Button, Icon, Screen } from '../../components';
 import type { IconName } from '../../components';
 import { CATEGORIES, FEATURES, FEATURE_KEYS } from '../../contracts';
 import type { Category, FeatureKey, Need, Priority } from '../../contracts';
+import { loadOnboarding, saveOnboarding } from '../../lib/onboarding';
 import { useReturnTo } from '../../lib/returnTo';
 import { useProfile } from '../../shell/ProfileProvider';
+import { SetupProgress, SkipSetup } from '../../shell/Setup';
 import './profile.css';
 
 const CATEGORY_ICONS: Record<Category, IconName> = {
   mobility: 'accessibility', communication: 'ear', sensory: 'brain', other: 'heart-handshake',
 };
 
-export default function NeedsEditScreen() {
+/** Screen 02. `setup`: onboarding step 1 (starts empty, picks are kept for resume); otherwise the profile editor. */
+export default function NeedsEditScreen({ setup = false }: { setup?: boolean }) {
   const { profile, setProfile } = useProfile();
-  const [needs, setNeeds] = useState<Need[]>(profile.needs);
+  const [needs, setNeeds] = useState<Need[]>(() => setup ? loadOnboarding()?.needs ?? [] : profile.needs);
   const from = useReturnTo('/profile');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (setup) saveOnboarding('needs', needs);
+  }, [setup, needs]);
 
   function toggleNeed(key: FeatureKey, checked: boolean) {
     setNeeds((current) => checked
@@ -29,14 +36,19 @@ export default function NeedsEditScreen() {
   }
 
   return (
-    <Screen title="Access needs" back={{ to: from, label: 'Back' }} noNav dock={
+    <Screen
+      title={setup ? 'Your access needs · Setup step 1 of 2' : 'Access needs'}
+      back={{ to: setup ? '/welcome' : from, label: 'Back' }}
+      barEnd={setup ? <SkipSetup /> : undefined}
+      noNav dock={
       <ActionBar>
         <p className="meta" role="status">
           {needs.length} {needs.length === 1 ? 'need' : 'needs'} selected · {needs.filter((need) => need.priority === 'required').length} required
         </p>
-        <Button type="submit" form="needs-form" block>Save</Button>
+        <Button type="submit" form="needs-form" block>{setup ? 'Continue' : 'Save'}</Button>
       </ActionBar>
     }>
+      {setup ? <SetupProgress step={1} /> : null}
       <div className="stack">
         <h1 className="title-1">What do you need at a visit?</h1>
         <p className="lead">Check any that apply, then mark each one <strong>required</strong> or <strong>nice to have</strong>. You can change these later.</p>
@@ -44,6 +56,11 @@ export default function NeedsEditScreen() {
 
       <form id="needs-form" className="stack" onSubmit={(event) => {
         event.preventDefault();
+        if (setup) {
+          saveOnboarding('location', needs);
+          navigate('/welcome/location');
+          return;
+        }
         setProfile({ ...profile, needs });
         navigate(from);
       }}>

@@ -1,10 +1,10 @@
 import { lazy } from 'react';
 import type { RouteObject } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
+import { startPath } from './lib/onboarding';
 import { NotFound } from './shell/Placeholders';
 
 // Lazy so Leaflet and each worker's screens stay out of the main bundle.
-// Workers replace the default export of their own files; this table stays untouched.
 const Welcome = lazy(() => import('./shell/Welcome'));
 const Find = lazy(() => import('./screens/find/FindScreen'));
 const Results = lazy(() => import('./screens/find/ResultsScreen'));
@@ -17,9 +17,16 @@ const Profile = lazy(() => import('./screens/profile/ProfileScreen'));
 const NeedsEdit = lazy(() => import('./screens/profile/NeedsEditScreen'));
 const LocationEdit = lazy(() => import('./screens/profile/LocationEditScreen'));
 
+/** Read at render, so Reset demo or a finished setup takes effect without a reload. */
+function Start() {
+  return <Navigate to={startPath()} replace />;
+}
+
 export const routes: RouteObject[] = [
-  { path: '/', element: <Navigate to="/find" replace /> },
-  { path: '/welcome', element: <Welcome /> }, // 01: shell placeholder, onboarding deferred
+  { path: '/', element: <Start /> }, // first launch: Welcome, or resume setup
+  { path: '/welcome', element: <Welcome /> }, // 01
+  { path: '/welcome/needs', element: <NeedsEdit setup /> }, // 02: setup step 1
+  { path: '/welcome/location', element: <LocationEdit setup /> }, // 03: setup step 2
   { path: '/find', element: <Find /> }, // 04: C
   { path: '/results', element: <Results /> }, // 05 / 07: C
   { path: '/results/map', element: <ResultsMap /> }, // 06: C

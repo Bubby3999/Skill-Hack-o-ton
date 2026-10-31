@@ -21,6 +21,14 @@ interface Props {
   variant?: 'full' | 'compact';
 }
 
+/** Return path for "Add your needs": drops `needs=` so the results use the profile needs just added. */
+function withoutNeeds({ pathname, search }: { pathname: string; search: string }) {
+  const params = new URLSearchParams(search);
+  params.delete('needs');
+  const q = params.toString();
+  return q ? `${pathname}?${q}` : pathname;
+}
+
 export function ClinicCard({ rank, clinic, match, as: Heading = 'h2', variant = 'full' }: Props) {
   const loc = useLocation();
   const id = `clinic-${clinic.id}`;
@@ -43,7 +51,7 @@ export function ClinicCard({ rank, clinic, match, as: Heading = 'h2', variant = 
         </>
       ) : (
         <p className="meta">
-          <Link to={needsEditPath(loc.pathname + loc.search)}>Add your needs</Link> to see how this clinic fits.
+          <Link to={needsEditPath(withoutNeeds(loc))}>Add your needs</Link> to see how this clinic fits.
         </p>
       )}
     </article>

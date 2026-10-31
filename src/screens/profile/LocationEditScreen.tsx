@@ -4,9 +4,11 @@ import { ActionBar, Button, Icon, Notice, Screen } from '../../components';
 import { RADII } from '../../contracts';
 import type { Radius } from '../../contracts';
 import { getPosition } from '../../lib/geo';
+import { loadOnboarding, saveOnboarding } from '../../lib/onboarding';
 import { useReturnTo } from '../../lib/returnTo';
 import { lookupZip } from '../../lib/zips';
 import { useProfile } from '../../shell/ProfileProvider';
+import { SetupProgress, SkipSetup } from '../../shell/Setup';
 
 const POSITION_ERRORS = {
   denied: 'Location permission was denied. Enter a ZIP code instead.',
@@ -15,11 +17,12 @@ const POSITION_ERRORS = {
   unsupported: 'This browser cannot use your current location. Enter a ZIP code instead.',
 };
 
-export default function LocationEditScreen() {
+/** Screen 03. `setup`: onboarding step 2 (starts blank, Save writes the new profile); otherwise the profile editor. */
+export default function LocationEditScreen({ setup = false }: { setup?: boolean }) {
   const { profile, setProfile } = useProfile();
   const [location, setLocation] = useState(profile.location);
-  const [useGps, setUseGps] = useState(profile.location.source === 'gps');
-  const [zip, setZip] = useState(profile.location.zip ?? '');
+  const [useGps, setUseGps] = useState(!setup && profile.location.source === 'gps');
+  const [zip, setZip] = useState(setup ? '' : profile.location.zip ?? '');
   const [radius, setRadius] = useState<Radius>(profile.radius);
   const [busy, setBusy] = useState(false);
   const [positionMessage, setPositionMessage] = useState('');
@@ -54,9 +57,14 @@ export default function LocationEditScreen() {
   }
 
   return (
-    <Screen title="Location" back={{ to: from, label: 'Back' }} noNav dock={
-      <ActionBar><Button type="submit" form="location-form" block disabled={busy}>Save</Button></ActionBar>
-    }>
+    <Screen
+      title={setup ? 'Your location · Setup step 2 of 2' : 'Location'}
+      back={{ to: setup ? '/welcome/needs' : from, label: 'Back' }}
+      barEnd={setup ? <SkipSetup /> : undefined}
+      noNav dock={
+        <ActionBar><Button type="submit" form="location-form" block disabled={busy}>{setup ? 'Show clinics near me' : 'Save'}</Button></ActionBar>
+      }>
+      {setup ? <SetupProgress step={2} /> : null}
       <div className="stack">
         <h1 className="title-1">Where should we look?</h1>
         <p className="lead">Used only to measure distance to clinics. It stays on this phone.</p>
@@ -74,6 +82,13 @@ export default function LocationEditScreen() {
             return;
           }
           nextLocation = { source: 'zip', zip: result.zip, label: result.label, lat: result.lat, lng: result.lng };
+        }
+        if (setup) {
+          // A fresh profile: the needs from step 1, no demo name or contact details.
+          setProfile({ needs: loadOnboarding()?.needs ?? [], location: nextLocation, radius, letter: {} });
+          saveOnboarding('done');
+          navigate('/find');
+          return;
         }
         setProfile({ ...profile, location: nextLocation, radius });
         navigate(from);

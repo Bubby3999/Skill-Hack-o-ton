@@ -1,8 +1,10 @@
-// Every MVP route (screens 01-12). Shared: read-only for workers.
+// Every MVP route (screens 01-12).
 export const SAMPLE_CLINIC = 'lakeshore-womens-health';
 
 export const ROUTES = [
   '/welcome',
+  '/welcome/needs',
+  '/welcome/location',
   '/find',
   '/results',
   '/results/map',
