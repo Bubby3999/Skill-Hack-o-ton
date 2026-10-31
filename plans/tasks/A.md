@@ -1,6 +1,6 @@
 # Worker A · Profile + needs and location editors (02, 03, 12)
 
-Run: unattended, through `RUN.md`. Model: Sonnet 5.5. Read in order: `CLAUDE.md`, this file, `plans/STEP-3-SETUP.md` (contracts, match rules, and your section under "Worker scopes"), then your screens in `design/master/screens/`. Follow CLAUDE.md's Code steps: plan the edits (Step 1) and put the plan in your handoff, then implement (Step 2) without waiting. Load the `ponytail` and `ui-ux-pro-max` skills.
+Run: unattended, through `RUN.md`, on Loukik's Mac. Model: GPT Sol (`gpt-6.1-sol`, Codex CLI). Read in order: `CLAUDE.md`, this file, `plans/STEP-3-SETUP.md` (contracts, match rules, and your section under "Worker scopes"), then your screens in `design/master/screens/`. Follow CLAUDE.md's Code steps: plan the edits (Step 1) and put the plan in your handoff, then implement (Step 2) without waiting. Load the `ponytail` and `ui-ux-pro-max` skills.
 
 ## Screens
 02 Needs and 03 Location as edit screens, 12 Profile. Mockups: `design/master/screens/02-needs.html`, `03-location.html`, `12-profile.html`.
@@ -51,7 +51,7 @@ Onboarding (01 Welcome, step progress, skip/resume) is deferred and not part of 
 - Edit only the "Editable paths" above. Everything else is read-only, including `package.json`, the lockfile, `src/routes.tsx`, config, `design/`, and `plans/`.
 - Don't add dependencies. Leaflet, react-leaflet, lucide-react, and react-router-dom are already installed.
 - If a read-only file blocks you, work around it inside your own paths and list it under "Integration needs" in your handoff.
-- The AI mode is `mock`. Ollama is not installed on this machine. Don't call it.
+- The AI mode is `mock`. Don't call Ollama or switch to live mode during this run.
 - Tests: unit tests go next to your code (`*.test.ts(x)`, run by Vitest in node, no DOM; test pure logic). Browser tests go in your `tests/e2e/screens/<letter>/` folder; use `tests/e2e/helpers.ts` (`openRoute`, `expectNoSeriousAxeIssues`). Clinic "open now" text depends on the day: don't assert it.
 - The shared smoke test (`tests/e2e/smoke.spec.ts`) loads every route with axe. Your screens must keep passing it: one `h1`, labeled controls, 44x44px targets, visible focus, text for every status.
 - If something is unclear, take the reading closest to the mockup and the plan, and list it under "Decisions I made".

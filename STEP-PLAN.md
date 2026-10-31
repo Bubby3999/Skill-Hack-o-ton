@@ -182,7 +182,7 @@ All of this before any feature code.
 
 **Goal:** Every MVP feature works end to end on the deployed app and matches the master design.
 
-**Plan:** Four parallel Sonnet 5.5 workers (A–D) run on Tharak's machine, started by an Opus orchestrator that follows [`RUN.md`](RUN.md). It merges each worker into `main` and pushes. It doesn't review the code; the team pulls, reviews, and tests. Scopes are in [`plans/STEP-3-SETUP.md`](plans/STEP-3-SETUP.md) → Worker scopes.
+**Plan:** Four parallel workers run on Loukik's Mac: A, B, and D on GPT Sol through the Codex CLI, and C on Sonnet 5.5. An Opus orchestrator starts them by following [`RUN.md`](RUN.md). It merges each worker into `main` and pushes. It doesn't review the code; the team pulls, reviews, and tests. Scopes are in [`plans/STEP-3-SETUP.md`](plans/STEP-3-SETUP.md) → Worker scopes.
 
 **Time box:** ___
 
@@ -412,7 +412,7 @@ All of this before any feature code.
 | 4 | Chunk order / parallel | Setup builds shared chunks; 4 parallel workers | Screens don't overlap |
 | 4 | Match scoring rules | Mockup tiers; patient-reported = Has; Poor ranked, not excluded | Screens 05, 07, 08 already show them |
 | 4 | Seed clinic count | About 20 | Fills the map; checkable by hand |
-| 4 | Who runs the workers | Tharak's machine; Opus orchestrator via `RUN.md`; pushes to `main` | Loukik's Mac runs only setup |
+| 4 | Who runs the workers | Loukik's Mac; Opus orchestrator via `RUN.md`; A/B/D GPT Sol, C Sonnet 5.5; pushes to `main` | Tharak's machine lacked Node; mixes both harnesses |
 | 4 | Onboarding | Deferred; the app starts with the demo profile | Build if time |
 | 5 | Minimum Lighthouse score | | |
 | 5 | What gets cut | | |

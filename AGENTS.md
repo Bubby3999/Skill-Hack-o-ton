@@ -33,7 +33,8 @@ Primary models that are in play:
 |---|---|---|---|
 | Planner | Opus 5.5 | Loukik's Claude harness | plans, writes `plans/*` |
 | Setup (Code Agent) | Sonnet 5.5 | Loukik's Mac | builds the foundation (`plans/STEP-3-SETUP.md`) |
-| Orchestrator | Opus 5.5 | Tharak's machine | runs `RUN.md`: deploys workers, checks, merges, logs |
-| Workers A–D | Sonnet 5.5 | Tharak's machine | build screens from `plans/tasks/A.md`–`D.md` |
+| Orchestrator | Opus 5.5 | Loukik's Mac | runs `RUN.md`: deploys workers, checks, merges, logs |
+| Workers A, B, D | GPT Sol (`gpt-6.1-sol`, Codex CLI) | Loukik's Mac | build screens from `plans/tasks/A.md`, `B.md`, `D.md` |
+| Worker C | Sonnet 5.5 | Loukik's Mac | builds screens from `plans/tasks/C.md` |
 
 Workers run unattended and edit only their own paths.

@@ -19,7 +19,7 @@ Planner: Opus 5.5 · Setup agent: Sonnet 5.5 (`claude-sonnet-5-5`), one session 
 | Demo area | Oakland, default ZIP 94612 | Matches the mockups |
 | Scoring | The rules drawn in the mockups (§7) | Screens 05, 07, and 08 already show them |
 | Match engine | Built in setup, not by a worker | Workers B, C, and D all use it |
-| Workers | 4 × Sonnet 5.5 on Tharak's machine, started by an Opus orchestrator from `RUN.md` | Screens don't overlap; the orchestrator merges and pushes to `main` |
+| Workers | On Loukik's Mac, started by an Opus orchestrator from `RUN.md`: A, B, D on GPT Sol (`gpt-6.1-sol`), C on Sonnet 5.5 | Screens don't overlap; the orchestrator merges and pushes to `main` |
 | Onboarding | Deferred (build if time). The app starts with the demo profile | Keeps the demo path short |
 
 ## What setup delivers
@@ -142,12 +142,12 @@ A pure function with unit tests.
 - **`AGENTS.md`:** the lineup:
   - Planner: Opus 5.5
   - Setup: Sonnet 5.5, on Loukik's Mac
-  - Orchestrator: Opus 5.5, on Tharak's machine, running `RUN.md`
-  - Workers A–D: Sonnet 5.5, on Tharak's machine
+  - Orchestrator: Opus 5.5, on Loukik's Mac, running `RUN.md`
+  - Workers A, B, D: GPT Sol (`gpt-6.1-sol`); Worker C: Sonnet 5.5; all on Loukik's Mac
 - **Worker packets** `plans/tasks/A.md`–`D.md`: the scope from the next section, plus editable paths, read-only shared paths, dependencies, and the check command. Workers run unattended (see `RUN.md`), so each packet must be self-contained: nothing in it should need a human answer. The handoff format is the one in `RUN.md`.
 
 ## Worker scopes (Step 4)
-All four workers run on Tharak's machine, unattended, through `RUN.md`. Workers edit only their own screens. Shared code (routing, shared components, contracts, storage, geo, match, server plumbing, dependencies, config) is read-only for them. They work around a gap inside their own paths and list it in the handoff. The orchestrator logs these in `plans/RUN-LOG.md`, and Loukik picks them up after pulling.
+All four workers run on Loukik's Mac, unattended, through `RUN.md`. Workers edit only their own screens. Shared code (routing, shared components, contracts, storage, geo, match, server plumbing, dependencies, config) is read-only for them. They work around a gap inside their own paths and list it in the handoff. The orchestrator logs these in `plans/RUN-LOG.md`, and Loukik picks them up after the run.
 
 ### A · Profile + needs and location editors (02, 03, 12)
 Onboarding (01 Welcome, step progress, skip/resume) is deferred and not part of this scope.
@@ -220,10 +220,10 @@ Onboarding (01 Welcome, step progress, skip/resume) is deferred and not part of 
 - **Sends:** messages, needs, ZIP if set, radius. **Never sends:** name, email, phone, GPS coordinates.
 - **Privacy notice** (replaces the mockup's "AI service" line): *"Your messages, access needs, and ZIP code go to CareFit's demo server, where a local AI model runs the search. They aren't sent to an AI company. Your name and contact details are not sent. No medical advice."*
 - **Failure:** if Ollama is down, slow (timeout), or returns invalid output, show an error bubble and a link to manual filters.
-- **Done when** (on Tharak's machine, which has no Ollama):
+- **Done when** (the run uses mock mode only):
   - the demo query returns correctly filtered results in mock mode
   - live mode with Ollama unreachable shows the fallback
-  - the live-model test happens on Loukik's Mac after pulling
+  - the live-model test happens after the run
 
 **Handoff from every worker:** the format in `RUN.md`. The orchestrator labels these claims as worker-reported.
 
@@ -258,4 +258,4 @@ These run alongside setup or right after it.
 - Install Ollama on Loukik's Mac, pull an 8B-class instruct model (the Mac is an M2 with 16 GB), and set `OLLAMA_MODEL`.
 - Install Tailscale on the Mac, log in, and enable Funnel for the tailnet.
 - After handoff: install the PWA on a phone through the Funnel URL, and test `/api/chat` live once Ollama is installed.
-- Once setup lands, Tharak pulls `main` and starts `RUN.md` (`Orchestrate RUN.md` in Claude Code on Opus 5.5). The team pulls when it finishes.
+- Once setup lands, Loukik starts `RUN.md` (`Orchestrate RUN.md` in a new Claude Code session on Opus 5.5). The team pulls when it finishes.

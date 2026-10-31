@@ -1,6 +1,6 @@
 # Worker D · Assistant (11)
 
-Run: unattended, through `RUN.md`. Model: Sonnet 5.5. Read in order: `CLAUDE.md`, this file, `plans/STEP-3-SETUP.md` (contracts, match rules, and your section under "Worker scopes"), then your screens in `design/master/screens/`. Follow CLAUDE.md's Code steps: plan the edits (Step 1) and put the plan in your handoff, then implement (Step 2) without waiting. Load the `ponytail` and `ui-ux-pro-max` skills.
+Run: unattended, through `RUN.md`, on Loukik's Mac. Model: GPT Sol (`gpt-6.1-sol`, Codex CLI). Read in order: `CLAUDE.md`, this file, `plans/STEP-3-SETUP.md` (contracts, match rules, and your section under "Worker scopes"), then your screens in `design/master/screens/`. Follow CLAUDE.md's Code steps: plan the edits (Step 1) and put the plan in your handoff, then implement (Step 2) without waiting. Load the `ponytail` and `ui-ux-pro-max` skills.
 
 ## Screens
 11 Ask. Mockup: `design/master/screens/11-assistant.html`.
@@ -34,7 +34,7 @@ The server plumbing is already built and read-only: `server/api.ts`, `chat.ts`, 
 - Live mode with Ollama unreachable shows the fallback: test it in the browser by intercepting `/api/chat` with a typed error, and in a unit test of your client.
 - No name, email, phone, or coordinates appear in the request body (assert in a Playwright test).
 - Keyboard only: type, Send, follow a result link, reach "See results".
-- Note in the handoff: the live-model test happens on Loukik's Mac after pulling, not in this run.
+- Note in the handoff: the live-model test happens after this run, not during it.
 
 ## Read-only for you
 `src/{contracts,lib,data,components,shell,styles}/**`, `src/{routes,App,main}.tsx`, `server/**` (except `server/assistant/**` for Worker D), `tests/e2e/{smoke,pwa}.spec.ts`, `tests/e2e/{helpers,routes}.ts`, `tests/unit/**`, `public/**`, `package.json`, the lockfile, all config files, `design/**`, `plans/**`, and the root docs. Other workers' folders are theirs: A `src/screens/profile`, B `src/screens/clinic`, C `src/screens/find`, D `src/screens/ask` and `server/assistant`.
@@ -52,7 +52,7 @@ The server plumbing is already built and read-only: `server/api.ts`, `chat.ts`, 
 - Edit only the "Editable paths" above. Everything else is read-only, including `package.json`, the lockfile, `src/routes.tsx`, config, `design/`, and `plans/`.
 - Don't add dependencies. Leaflet, react-leaflet, lucide-react, and react-router-dom are already installed.
 - If a read-only file blocks you, work around it inside your own paths and list it under "Integration needs" in your handoff.
-- The AI mode is `mock`. Ollama is not installed on this machine. Don't call it.
+- The AI mode is `mock`. Don't call Ollama or switch to live mode during this run.
 - Tests: unit tests go next to your code (`*.test.ts(x)`, run by Vitest in node, no DOM; test pure logic). Browser tests go in your `tests/e2e/screens/<letter>/` folder; use `tests/e2e/helpers.ts` (`openRoute`, `expectNoSeriousAxeIssues`). Clinic "open now" text depends on the day: don't assert it.
 - The shared smoke test (`tests/e2e/smoke.spec.ts`) loads every route with axe. Your screens must keep passing it: one `h1`, labeled controls, 44x44px targets, visible focus, text for every status.
 - If something is unclear, take the reading closest to the mockup and the plan, and list it under "Decisions I made".
