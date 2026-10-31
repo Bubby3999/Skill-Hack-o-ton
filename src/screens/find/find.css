@@ -1,0 +1,15 @@
+/* Find, Results and Map. Tokens only. Base classes live in src/styles/components.css. */
+
+/* Map: Leaflet fills the canvas; our own controls and attribution sit above it. */
+.map-view__canvas { isolation: isolate; }
+.map-view__map { position: absolute; inset: 0; z-index: 0; background: var(--map-land); font: inherit; }
+.map-view__controls, .map-view__attr { z-index: var(--z-sticky); }
+.map-view__attr { color: var(--color-ink); box-shadow: var(--shadow-sm); }
+
+/* Leaflet draws the icon box; the mockup's .pin and .me-dot supply the look. */
+.pin-icon, .me-icon { background: transparent; border: 0; }
+.pin-icon .pin { position: relative; transform: none; pointer-events: auto; cursor: pointer; }
+.me-icon .me-dot { position: static; display: block; transform: none; }
+
+/* Checkboxes next to the hidden priority radios need a 24px box to pass the target-size rule. */
+.filters-panel .check input { width: 1.5rem; height: 1.5rem; }
