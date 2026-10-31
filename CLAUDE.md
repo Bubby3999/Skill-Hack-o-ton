@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-- PROJECTS.md is what we are building; STEP_PLAN.md is the phase plan.
+- PROJECT.md is what we are building; STEP-PLAN.md is the phase plan; plan files live in `plans/`.
 - Read AGENTS.md first to identify your role and the required skills. It's mandatory.
 - The process is planning (with Q&A to resolve ambiguities) --> writing the plan file --> coding sessions.
 - Orchestrate only when asked.

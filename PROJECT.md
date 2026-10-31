@@ -46,7 +46,7 @@ Disabled patients and their caregivers, including people with mobility disabilit
 | Disabled users | The profile covers mobility, communication, sensory, and cognitive needs |
 
 ### Privacy
-The profile stays in `localStorage` on the user's device. It leaves the device only when the user messages the AI assistant, and the app should say so on that screen.
+The profile stays in `localStorage` on the user's device. When the user messages the AI assistant, the messages, access needs, ZIP code, and radius go to CareFit's demo server, where a local Ollama model runs; no AI company receives them. Name, contact details, and GPS coordinates are never sent. The Ask screen says so.
 
 ---
 
@@ -59,7 +59,7 @@ The profile stays in `localStorage` on the user's device. It leaves the device o
    - Access needs grouped by category (see the shared feature list in #3), each marked **required** or **nice-to-have**
    - Optional personal details used in letters: name and contact info
    - Edit profile, plus a **Reset demo** control
-2. **Onboarding**
+2. **Onboarding** *(deferred: build if time. Until then, the app starts with a demo profile.)*
    - Short first-launch setup that writes the profile
    - Can be skipped or resumed
    - Ends on the Search screen
@@ -71,7 +71,7 @@ The profile stays in `localStorage` on the user's device. It leaves the device o
      - *Communication:* in-person ASL interpreter, video remote interpreting (VRI), CART / live captioning, tactile interpreter (DeafBlind), braille / large-print materials, plain-language materials
      - *Sensory / cognitive:* quiet or sensory-friendly room, adjustable lighting, extended appointment time, minimal-wait scheduling
      - *Other:* service animals welcome, telehealth option
-   - Seed script that builds the JSON (clinic info → geocode → access features)
+   - Fictional demo dataset (~20 Oakland clinics), checked by a validation test
    - Visible **Demo data** label anywhere made-up equipment data appears
 4. **Match engine**
    - Pure function: `(profile, clinic, userLocation) → { score, has[], missing[], unknown[], distance }`
@@ -99,8 +99,8 @@ The profile stays in `localStorage` on the user's device. It leaves the device o
    - Answers questions about a clinic's features
    - Gives no medical advice
    - Falls back to manual filters if the AI is down
-10. **AI proxy**
-    - One serverless function that holds the API key, so the key never ships to the browser
+10. **AI server**
+    - `/api/chat` on CareFit's Node server forwards to a local Ollama model; the browser never calls Ollama directly
 11. **PWA shell**
     - Manifest, icons (192 / 512 / maskable), service worker
     - Installable; works offline for the profile and cached clinics
@@ -135,7 +135,7 @@ The profile stays in `localStorage` on the user's device. It leaves the device o
 ### Core
 | Source | Used for | Need | Notes |
 |---|---|---|---|
-| Frontend framework: **TBD in Step 3** | App UI | Necessary | Options: Vite + React, Vite + Svelte, Next.js, vanilla JS |
+| Frontend framework: **Vite + React + TypeScript** (Step 3) | App UI | Necessary | Plain CSS ported from `design/master/` |
 | [Web Storage API (`localStorage`)](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) | Profile, drafts, settings | Necessary | Built into the browser; stores strings only, so use `JSON.stringify`/`parse`; about 5MB limit |
 | [Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API) | User location | Necessary | Built in; requires HTTPS |
 
@@ -144,30 +144,32 @@ The profile stays in `localStorage` on the user's device. It leaves the device o
 |---|---|---|---|
 | [Leaflet](https://leafletjs.com/) | Map view | Necessary | Free, open source, no API key |
 | [OpenStreetMap tiles](https://operations.osmfoundation.org/policies/tiles/) | Map imagery | Necessary | Free; attribution required; fine at demo-level traffic |
-| [US Census Geocoder](https://geocoding.geo.census.gov/geocoder/) | Address → lat/lng for seed data | Necessary (pick one) | Free, no key, supports batch lookups |
-| [Nominatim (OSM)](https://operations.osmfoundation.org/policies/nominatim/) | Address → lat/lng; ZIP → lat/lng | Alternative | Max 1 request/sec; run it in the seed script, not the app |
+| [Census ZCTA Gazetteer](https://www.census.gov/geographies/reference-files/time-series/geo/gazetteer-files.html) | ZIP → lat/lng for the demo area | Necessary | One-time download; bundled as a small Oakland-area table |
+| [US Census Geocoder](https://geocoding.geo.census.gov/geocoder/) | Address → lat/lng | Not used | Fictional clinics have hand-placed coordinates |
+| [Nominatim (OSM)](https://operations.osmfoundation.org/policies/nominatim/) | Address → lat/lng; ZIP → lat/lng | Not used | |
 | [Turf.js](https://turfjs.org/) | Distance math | Optional | A ~10-line haversine function does the same job |
 
 ### Clinic data
 | Source | Used for | Need | Notes |
 |---|---|---|---|
-| [NPPES NPI Registry API](https://npiregistry.cms.hhs.gov/api-page) | Real clinic and doctor names, addresses, specialties | Necessary (pick one) | Free CMS data; call it from the seed script, not the browser |
+| [NPPES NPI Registry API](https://npiregistry.cms.hhs.gov/api-page) | Real clinic and doctor names, addresses, specialties | Not used | Fictional data chosen in Step 1 |
 | [CMS Provider Data: Doctors and Clinicians](https://data.cms.gov/provider-data/) | Doctors linked to group practices | Optional | Downloadable dataset |
-| Fictional data | Clinics invented for the demo | Alternative | Avoids presenting made-up equipment claims about real clinics |
+| Fictional data | Clinics invented for the demo (Oakland) | **Chosen** | Avoids presenting made-up equipment claims about real clinics |
 
 > Equipment and accommodation data for clinics doesn't exist publicly. That missing data is the problem CareFit solves. For the demo it's made up and must be labeled **Demo data**.
 
 ### AI
 | Source | Used for | Need | Notes |
 |---|---|---|---|
-| LLM API: **TBD in Step 3** (e.g., [Claude API](https://docs.claude.com)) | In-app assistant | Necessary | Use tool use / structured output to get filters back as JSON |
-| Serverless host: **TBD in Step 3**: [Vercel Functions](https://vercel.com/docs/functions), [Netlify Functions](https://docs.netlify.com/functions/overview/), [Cloudflare Workers](https://developers.cloudflare.com/workers/) | AI proxy that holds the key | Necessary | GitHub Pages can't run functions |
+| [Ollama](https://docs.ollama.com/api/chat) (local) | In-app assistant | Necessary | JSON-schema `format` returns filters as structured JSON; no API key |
+| CareFit Node server on Loukik's Mac | Serves the app and `/api/chat` | Necessary | Same origin as the app |
+| [Tailscale Funnel](https://tailscale.com/kb/1223/funnel) | Stable HTTPS URL for the phone | Necessary | HTTPS is required for geolocation and PWA install |
 
 ### PWA
 | Source | Used for | Need | Notes |
 |---|---|---|---|
 | [Web App Manifest](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Manifest) | Installability | Necessary | Built in |
-| [vite-plugin-pwa](https://vite-pwa-org.netlify.app/) or [Workbox](https://developer.chrome.com/docs/workbox) | Service worker and caching | Necessary (pick one) | vite-plugin-pwa only if the project uses Vite |
+| [vite-plugin-pwa](https://vite-pwa-org.netlify.app/) | Service worker and caching | Necessary | Chosen with Vite |
 | [Web Share API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Share_API) | Share the letter | Necessary | Built in; fall back to copy |
 | [Web Speech API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API) | Voice input, read aloud | Optional | Browser support varies |
 

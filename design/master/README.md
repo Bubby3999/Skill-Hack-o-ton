@@ -56,4 +56,4 @@ App bar · back link · brand · button (primary / secondary / ghost / danger / 
 - Map: Leaflet + OSM. Markers are buttons with the clinic name, fit, and distance in `aria-label`, and `aria-pressed` for the selected one. Keep Prev/Next in the sheet as the non-drag alternative. Keep the attribution.
 - On route change, move focus to `#main`. Chat: append messages to the `role="log"` region and scroll to the newest.
 - Map and list share rank numbers. Keep them in sync with the sort.
-- The fit tiers and "patient-reported counts as has" are design assumptions; confirm them with the match-engine scoring decision.
+- The fit tiers and "patient-reported counts as Has" are confirmed (Step 3 scoring decision; rules in `plans/STEP-3-SETUP.md` §7).

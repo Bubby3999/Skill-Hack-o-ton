@@ -2,7 +2,7 @@
 
 The spec behind `design/master/`. Scope lives in `PROJECT.md`; this file says what each screen shows and how.
 
-> Sample content (clinic names, ZIP 94612, persona) is fictional placeholder until Step 1 decides **clinic data** and **demo area**.
+> Sample content is fictional by decision: clinics are fictional, and the demo area is Oakland (ZIP 94612). The build's dataset reproduces these screens.
 
 ## Product
 CareFit helps disabled patients find clinics that have the equipment and accommodations they need, before they show up. Profile on the phone → match clinics → see fit + reasons → request accommodations by letter. An AI assistant turns plain language into filters.
@@ -33,7 +33,7 @@ CareFit helps disabled patients find clinics that have the equipment and accommo
 | `not-available` | x icon · "Not available" · date + source |
 
 **Per need, for one user** (match engine `has[] / unknown[] / missing[]`): **Has** · **Unknown** · **Missing**.
-Design assumes `patient-reported` counts as Has (detail screen still shows the source).
+`patient-reported` counts as Has (confirmed in Step 3; the detail screen still shows the source).
 
 **Fit tier** (badge on cards and detail), always with a count like "5 of 6 needs":
 - **Strong fit** — every required need is Has.

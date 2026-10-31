@@ -27,8 +27,8 @@
 
 **Decisions**
 - [ ] **Scope:** mobility-first headline with a multi-disability profile, or mobility only? Multi-disability reaches more users and fits the theme more broadly. Mobility only is simpler to build and pitch.
-- [ ] **Clinic data:** real clinics labeled "Demo data", or fictional clinics in a real area? Real names make the demo feel real, but the equipment data is made up. Fictional avoids presenting false claims about real businesses.
-- [ ] **Demo area:** which city/ZIP the seed data covers
+- [x] **Clinic data:** real clinics labeled "Demo data", or fictional clinics in a real area? Real names make the demo feel real, but the equipment data is made up. Fictional avoids presenting false claims about real businesses. → **Fictional clinics in a real area**, labeled Demo data
+- [x] **Demo area:** which city/ZIP the seed data covers → **Oakland, CA; default ZIP 94612**
 
 **Done when**
 - You can pitch CareFit in 30 seconds without notes
@@ -96,23 +96,23 @@
 
 **Goal:** A repo that:
 - runs locally
-- deploys to an HTTPS URL
+- serves over HTTPS from Loukik's Mac (Tailscale Funnel)
 - installs as a PWA on your phone
-- has a working AI proxy
+- has a working `/api/chat` (mock mode first; live once Ollama is installed)
 - has the dev harness configured
 
 All of this before any feature code.
 
-**Plan:** Choose the stack, scaffold the project, configure the harness, add dependencies, build the proxy skeleton, then deploy a hello-world version.
+**Plan:** One Sonnet 5.5 setup session follows [`plans/STEP-3-SETUP.md`](plans/STEP-3-SETUP.md). It also builds the shared pieces that more than one Step 4 worker needs: contracts, shared components, the match engine, and the clinic dataset.
 
 **Time box:** ___
 
 ### 3.1 Make the stack decisions (see Decisions below)
-- [ ] Framework
-- [ ] Language
-- [ ] CSS approach
-- [ ] Host
-- [ ] LLM provider and model
+- [x] Framework
+- [x] Language
+- [x] CSS approach
+- [x] Host
+- [x] LLM provider and model (the exact model tag is set when Ollama is installed)
 
 ### 3.2 Scaffold
 - [ ] Initialize the project with the chosen framework
@@ -121,9 +121,9 @@ All of this before any feature code.
   src/screens/      src/components/    src/lib/storage
   src/lib/match     src/lib/geo        src/lib/letter
   src/data/clinics.json
-  api/ (AI proxy)   scripts/ (seed)    design/    tests/
+  server/ (app + /api/chat)   scripts/    design/    tests/
   ```
-- [ ] `.gitignore` that includes `.env`
+- [x] `.gitignore` that includes `.env`
 - [ ] *(Optional)* Linter and formatter
 
 ### 3.3 Configure the harness (`Bubby3999/Skill-Hack-o-ton`)
@@ -132,45 +132,49 @@ All of this before any feature code.
   - Read `PROJECT.md` and `design/master/` before building anything
   - Every component must be accessible by default (labels, focus, contrast, target size)
   - All `localStorage` access goes through `src/lib/storage` only
-  - Never put API keys in client code
+  - The browser never calls Ollama directly; only through `/api/chat`
   - Follow the design tokens; no one-off colors or sizes
 - [ ] `AGENTS.md`: enter the lineup (which agent/model handles which kind of work)
 - [ ] Confirm Playwright runs with one smoke test
+- [ ] Worker packets for Step 4 → `plans/tasks/A.md`–`D.md`
 
 ### 3.4 Install dependencies (from `PROJECT.md` → Outside sources)
 - [ ] Leaflet (plus a framework wrapper if needed)
-- [ ] PWA tooling (vite-plugin-pwa or Workbox) and the manifest
-- [ ] LLM SDK, **server side only**
+- [ ] Lucide icons; self-hosted Atkinson Hyperlegible Next
+- [ ] PWA tooling (vite-plugin-pwa) and the manifest
+- [ ] No LLM SDK: the server calls Ollama's HTTP API
 - [ ] Vitest and `@axe-core/playwright`
 
-### 3.5 AI proxy skeleton
-- [ ] Serverless function that takes `{ messages }` and returns the model's reply
-- [ ] Read the API key from an environment variable; set it locally (`.env`) and on the host
-- [ ] *(Optional)* Cap tokens per request, or add simple rate limiting, so the demo can't run up your bill
+### 3.5 Shared foundations (moved up from Step 4 so parallel workers don't build against stubs)
+- [ ] App shell: routes for screens 01–12, tabs, skip link, landmarks, focus on navigation (was 4.1)
+- [ ] Contracts, storage module, geo (distance, geolocation, ZIP table)
+- [ ] Shared components used by two or more workers
+- [ ] Match engine + unit tests (was 4.4)
+- [ ] Fictional clinic dataset + validation (was 4.3)
 
-### 3.6 Deploy hello world
-- [ ] Deploy to the host; confirm it's served over HTTPS (geolocation and PWA install both need it)
+### 3.6 AI server skeleton
+- [ ] Node server that serves the built app and `/api/*` on one port
+- [ ] `POST /api/chat` → local Ollama `POST /api/chat`; an explicit mock mode; `GET /api/health`
+- [ ] Read `OLLAMA_BASE_URL`, `OLLAMA_MODEL`, and the AI mode from `.env`
+- [ ] Cap request size and message count (demo server, no auth)
+
+### 3.7 Serve over HTTPS
+- [ ] Run the production server on Loukik's Mac
+- [ ] Expose it with Tailscale Funnel; confirm it's served over HTTPS (geolocation and PWA install both need it)
 - [ ] Open the URL on your phone and install it
-- [ ] Call the proxy from the deployed app and get a reply
-- [ ] Search the built bundle for your API key to confirm it isn't there
+- [ ] Call `/api/chat` from the phone and get a reply (mock, then live)
 
 **Decisions**
-- [ ] **Framework:**
-  - Vite + React: biggest ecosystem; AI tools write it best
-  - Vite + Svelte: less code
-  - Next.js: built-in API routes for the proxy
-  - Vanilla JS: no framework, but more manual work
-
-  Weigh what you already know, what the harness writes reliably, and where the proxy will live.
-- [ ] **Language:** TypeScript (catches data-shape bugs in profile/clinic objects) or JavaScript (faster to start)
-- [ ] **CSS:** plain CSS with tokens, CSS Modules, or Tailwind
-- [ ] **Host:** Vercel, Netlify, or Cloudflare. It must run serverless functions.
-- [ ] **LLM provider and model:** weigh cost, speed, and how reliably it returns structured JSON through tool use
+- [x] **Framework:** Vite + React. Biggest ecosystem, and the harness writes it most reliably.
+- [x] **Language:** TypeScript. Four parallel workers share the profile, clinic, and filter shapes.
+- [x] **CSS:** plain CSS: the master `tokens.css` + `components.css`, ported as-is.
+- [x] **Host:** Loukik's Mac (runs Ollama) + Tailscale Funnel. A serverless host can't reach a laptop's `localhost`. Funnel gives a stable HTTPS URL, so the installed PWA survives restarts.
+- [x] **LLM provider and model:** local Ollama with JSON-schema structured output. Exact model tag: ___ (set in `.env` after install).
 
 **Done when**
-- The deployed URL loads on your phone and installs as an app
-- The proxy returns a test reply
-- The API key isn't in the client bundle
+- The Funnel URL loads on your phone and installs as an app
+- `/api/chat` returns a test reply (mock mode; live once Ollama is installed)
+- Match-engine tests pass, and every route is reachable by keyboard
 
 ---
 
@@ -178,7 +182,7 @@ All of this before any feature code.
 
 **Goal:** Every MVP feature works end to end on the deployed app and matches the master design.
 
-**Plan:** Build in chunks, in dependency order, using the loop below for each one. Don't start a new chunk while the current one is broken.
+**Plan:** Four parallel Sonnet 5.5 workers (A–D) run on Tharak's machine, started by an Opus orchestrator that follows [`RUN.md`](RUN.md). It merges each worker into `main` and pushes. It doesn't review the code; the team pulls, reviews, and tests. Scopes are in [`plans/STEP-3-SETUP.md`](plans/STEP-3-SETUP.md) → Worker scopes.
 
 **Time box:** ___
 
@@ -193,6 +197,8 @@ All of this before any feature code.
 - [ ] Commit
 
 ### 4.1 App shell
+*Built in Step 3.5.*
+
 - [ ] Navigation between all screens (placeholder content is fine)
 - [ ] Tokens and base components from the master
 - [ ] Skip link, landmarks (`header`/`main`/`nav`), and moving focus to the new screen on navigation
@@ -205,13 +211,15 @@ All of this before any feature code.
   - safe JSON parsing
   - a schema version key
 - [ ] Profile schema (`PROJECT.md` → Build list #1)
-- [ ] Onboarding flow that writes the profile
+- [ ] Onboarding flow that writes the profile: *deferred, build if time. Until then, the app starts with the demo profile.*
 - [ ] Profile/settings screen to edit needs
 - [ ] **Reset demo** control
 
-**Done when:** the profile survives a reload, and clearing storage sends you back to onboarding.
+**Done when:** the profile survives a reload, and clearing storage restores the demo profile.
 
 ### 4.3 Clinic library
+*Built in Step 3.5 as a fictional dataset (no NPI seed or geocoding).*
+
 - [ ] Seed script:
   - get clinic info (NPI Registry or fictional)
   - geocode it
@@ -224,6 +232,8 @@ All of this before any feature code.
 **Done when:** every clinic has coordinates and valid fields.
 
 ### 4.4 Match engine
+*Built in Step 3.5. Rules: `plans/STEP-3-SETUP.md` §7.*
+
 - [ ] Pure function `(profile, clinic, userLocation) → { score, has[], missing[], unknown[], distance }`
 - [ ] Unit tests with at least 5 hand-written cases, including edge cases
 
@@ -268,7 +278,7 @@ All of this before any feature code.
   - no medical advice
 - [ ] The app applies the returned filters and shows results
 - [ ] A notice on the chat screen saying what profile data gets sent
-- [ ] Failure handling: if the proxy is down or slow, show a friendly message and a link to manual filters
+- [ ] Failure handling: if `/api/chat` or Ollama is down or slow, show a friendly message and a link to manual filters
 
 **Done when:** *"OB-GYN within 15 miles who can weigh me seated"* returns correctly filtered results.
 
@@ -285,13 +295,13 @@ All of this before any feature code.
 - [ ] Update the pitch in `PROJECT.md` for anything that ships
 
 **Decisions**
-- [ ] **Chunk order:** keep the dependency order above, or reorder?
-- [ ] **Parallel agents or one at a time:** parallel is faster but risks merge conflicts. Chunks 4.3 and 4.4 can run alongside 4.1–4.2.
-- [ ] **Scoring rules for the match engine:**
+- [x] **Chunk order:** shared chunks (4.1, 4.3, 4.4) move to Step 3; the rest split by screen across workers A–D
+- [x] **Parallel agents or one at a time:** parallel, four workers in separate branches/worktrees; screens don't overlap
+- [x] **Scoring rules for the match engine:** the tiers drawn in the mockups; see `plans/STEP-3-SETUP.md` §7
   - how much required needs weigh versus nice-to-haves
   - whether `unknown` counts as partial credit or zero
   - how much distance matters
-- [ ] **Number of seed clinics:** enough to fill a map, but few enough to check by hand
+- [x] **Number of seed clinics:** enough to fill a map, but few enough to check by hand → about 20
 
 **Done when:** the full flow (onboarding → search → detail → letter → assistant) works on your phone using the deployed URL.
 
@@ -309,10 +319,10 @@ All of this before any feature code.
 - [ ] Vitest: match engine, storage module, letter generator
 - [ ] Playwright end-to-end tests:
   - onboarding → search → detail → letter
-  - assistant flow with a mocked proxy
+  - assistant flow in mock mode
 - [ ] axe scan on every screen; target 0 serious or critical issues
 - [ ] Lighthouse: record the accessibility, best-practices, and PWA scores
-- [ ] Search the production bundle for the API key or key prefix
+- [ ] Confirm the browser only calls `/api/chat`, never Ollama directly
 
 ### 5.2 Manual accessibility
 - [ ] Keyboard only: every action reachable, focus always visible, no focus traps
@@ -328,7 +338,7 @@ All of this before any feature code.
 - [ ] No clinics match → empty state
 - [ ] Offline → cached data loads
 - [ ] Empty or corrupted `localStorage` → no crash; returns to onboarding
-- [ ] AI proxy fails or is slow → fallback message
+- [ ] `/api/chat` or Ollama fails or is slow → fallback message
 - [ ] Very long names and text → layout holds
 
 ### 5.4 Real-user check (optional, high value)
@@ -387,21 +397,24 @@ All of this before any feature code.
 |---|---|---|---|
 | 1 | Name | CareFit | Simple; "Level" could be misread |
 | 1 | Scope | | |
-| 1 | Clinic data (real vs fictional) | | |
-| 1 | Demo area | | |
+| 1 | Clinic data (real vs fictional) | Fictional, labeled Demo data | No false equipment claims about real businesses |
+| 1 | Demo area | Oakland, ZIP 94612 | Matches the mockups |
 | 2 | Design models | Opus only | No time to run and compare two models |
 | 2 | Output format | HTML/CSS per screen + board | Easiest to build from and to hand-edit |
 | 2 | Navigation pattern | Bottom tabs (Find · Ask · Profile) + linear onboarding | Three top-level areas; onboarding runs once |
 | 2 | Base design | n/a | Single model |
 | 2 | Themes | Light only, semantic tokens | Dark/high-contrast stays an optional feature |
-| 3 | Framework | | |
-| 3 | Language | | |
-| 3 | CSS approach | | |
-| 3 | Host | | |
-| 3 | LLM provider and model | | |
-| 4 | Chunk order / parallel | | |
-| 4 | Match scoring rules | | |
-| 4 | Seed clinic count | | |
+| 3 | Framework | Vite + React | Harness writes it reliably |
+| 3 | Language | TypeScript | Shared shapes across four parallel workers |
+| 3 | CSS approach | Plain CSS (master tokens + components) | Already built and checked |
+| 3 | Host | Loukik's Mac + Tailscale Funnel | Ollama is local; stable HTTPS URL for the PWA |
+| 3 | LLM provider and model | Local Ollama; model tag TBD at install | No hosted LLM or keys |
+| 3 | Setup + worker model | Sonnet 5.5 (`claude-sonnet-5-5`); planner Opus 5.5 | Plan pins the contracts, so setup is mostly execution |
+| 4 | Chunk order / parallel | Setup builds shared chunks; 4 parallel workers | Screens don't overlap |
+| 4 | Match scoring rules | Mockup tiers; patient-reported = Has; Poor ranked, not excluded | Screens 05, 07, 08 already show them |
+| 4 | Seed clinic count | About 20 | Fills the map; checkable by hand |
+| 4 | Who runs the workers | Tharak's machine; Opus orchestrator via `RUN.md`; pushes to `main` | Loukik's Mac runs only setup |
+| 4 | Onboarding | Deferred; the app starts with the demo profile | Build if time |
 | 5 | Minimum Lighthouse score | | |
 | 5 | What gets cut | | |
 | 6 | Live or video | | |
