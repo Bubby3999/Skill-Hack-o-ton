@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import L from 'leaflet';
 import { MapContainer, Marker, TileLayer, useMap, useMapEvents } from 'react-leaflet';
 import { ClinicCard, IconButton, Screen } from '../../components';
+import { getPosition } from '../../lib/geo';
 import { useProfile } from '../../shell/ProfileProvider';
 import type { RankedClinic } from '../../lib/match';
 import type { Tier } from '../../contracts';
@@ -13,6 +14,13 @@ import { useResultsSearch } from './useResultsSearch';
 import './find.css';
 
 // Screen 06. Tiles come straight from OpenStreetMap; nothing is prefetched or cached.
+const CENTER_ERRORS = {
+  denied: 'Location permission was denied.',
+  unavailable: 'Your current location is unavailable.',
+  timeout: 'Finding your location took too long.',
+  unsupported: 'This browser cannot use your current location.',
+};
+// Prev/Next wrap around, so neither button disables under keyboard focus.
 const TIER_TEXT: Record<Tier, string> = { strong: 'strong fit', possible: 'possible fit', poor: 'poor fit' };
 
 /** "1, Lakeshore Women's Health, strong fit, 4.8 miles" */
@@ -73,7 +81,9 @@ const meIcon = L.divIcon({
 
 export default function MapScreen() {
   const s = useResultsSearch();
-  const { profile } = useProfile();
+  const { profile, setProfile } = useProfile();
+  const [centerMsg, setCenterMsg] = useState('');
+  const [locating, setLocating] = useState(false);
   const { lat, lng } = s.filters.location;
   const [map, setMap] = useState<L.Map | null>(null);
   const [sel, setSel] = useState(0);
@@ -93,12 +103,39 @@ export default function MapScreen() {
     if (c && map) map.panTo([c.lat, c.lng]);
   };
   const current = items[at];
+  const n = items.length;
+  const gps = profile.location.source === 'gps';
+  const zipText = profile.location.zip ? `ZIP ${profile.location.zip}` : 'my ZIP code';
+
+  /** GPS profiles get a fresh fix (saved, so distances follow); ZIP profiles center on the ZIP. */
+  async function center() {
+    if (!map) return;
+    const zoom = Math.max(map.getZoom(), 13);
+    if (!gps) {
+      map.setView([lat, lng], zoom);
+      setCenterMsg(`Centered on ${zipText}.`);
+      return;
+    }
+    setLocating(true);
+    setCenterMsg('Finding your current location…');
+    const r = await getPosition();
+    setLocating(false);
+    if (r.ok) {
+      setProfile({ ...profile, location: { source: 'gps', label: 'Current location', lat: r.lat, lng: r.lng } });
+      map.setView([r.lat, r.lng], zoom);
+      setCenterMsg('Centered on your current location. Distances are updated.');
+    } else {
+      map.setView([lat, lng], zoom);
+      setCenterMsg(`${CENTER_ERRORS[r.reason]} Centered on your saved location.`);
+    }
+  }
 
   return (
     <Screen title={s.title} back={{ to: '/find', label: 'Find' }} flush>
       <div className="results-head stack">
         <ResultsHead s={s} view="map" />
         {s.showEmpty ? <EmptyState s={s} /> : null}
+        <p className={centerMsg ? 'hint' : 'visually-hidden'} role="status">{centerMsg}</p>
       </div>
       {s.showEmpty ? null : (
         <div className="map-view">
@@ -118,8 +155,8 @@ export default function MapScreen() {
               <IconButton surface icon="plus" label="Zoom in" onClick={() => map?.zoomIn()} />
               <IconButton surface icon="minus" label="Zoom out" onClick={() => map?.zoomOut()} />
               <IconButton
-                surface icon="locate" label={`Center on ${profile.location.source === 'gps' ? 'my location' : 'my ZIP code'}`}
-                onClick={() => map?.setView([lat, lng], Math.max(map.getZoom(), 13))}
+                surface icon="locate" label={gps ? 'Center on my location' : `Center on ${zipText}`}
+                aria-busy={locating} onClick={center}
               />
             </div>
           </div>
@@ -127,9 +164,9 @@ export default function MapScreen() {
             <section className="sheet" aria-labelledby="sheet-h">
               <div className="sheet__handle" aria-hidden="true" />
               <div className="sheet__nav">
-                <IconButton icon="chevron-left" label="Previous clinic" disabled={at === 0} onClick={() => choose(at - 1)} />
-                <h2 className="meta strong" id="sheet-h" aria-live="polite">Clinic {at + 1} of {items.length}</h2>
-                <IconButton icon="chevron-right" label="Next clinic" disabled={at === items.length - 1} onClick={() => choose(at + 1)} />
+                <IconButton icon="chevron-left" label="Previous clinic" disabled={n < 2} onClick={() => choose((at - 1 + n) % n)} />
+                <h2 className="meta strong" id="sheet-h" aria-live="polite">Clinic {at + 1} of {n}</h2>
+                <IconButton icon="chevron-right" label="Next clinic" disabled={n < 2} onClick={() => choose((at + 1) % n)} />
               </div>
               <ClinicCard rank={at + 1} clinic={current.clinic} match={current.match} as="h3" variant="compact" />
             </section>

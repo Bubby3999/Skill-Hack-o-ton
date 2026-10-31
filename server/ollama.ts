@@ -14,6 +14,9 @@ export class OllamaError extends Error {
 
 type FetchLike = typeof fetch;
 
+/** Ollama's default context (4096 tokens) silently drops the start of the prompt, i.e. the rules. */
+const NUM_CTX = 8192;
+
 /** One non-streaming chat call with a JSON-schema `format`. Returns the model's raw message text. */
 export async function ollamaChat(
   cfg: Config,
@@ -26,7 +29,7 @@ export async function ollamaChat(
     res = await fetchImpl(`${cfg.ollamaBaseUrl}/api/chat`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ model: cfg.ollamaModel, messages, stream: false, format, options: { temperature: 0 } }),
+      body: JSON.stringify({ model: cfg.ollamaModel, messages, stream: false, format, options: { temperature: 0, num_ctx: NUM_CTX } }),
       signal: AbortSignal.timeout(cfg.ollamaTimeoutMs),
     });
   } catch (e) {

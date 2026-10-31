@@ -19,7 +19,13 @@ test('unknown path shows a not-found screen', async ({ page }) => {
   await expectNoSeriousAxeIssues(page);
 });
 
-test('/ redirects to /find', async ({ page }) => {
+test('/ opens Welcome on a fresh device and Find once a profile is saved', async ({ page }) => {
+  await openRoute(page, '/');
+  await expect(page).toHaveURL(/\/welcome$/);
+  await page.evaluate(() => {
+    localStorage.setItem('carefit:v', '1');
+    localStorage.setItem('carefit:onboarding', '{"step":"skipped","needs":[]}');
+  });
   await openRoute(page, '/');
   await expect(page).toHaveURL(/\/find$/);
 });

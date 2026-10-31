@@ -142,3 +142,47 @@ test('Map: shows the empty state for imaging within 5 mi', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'No full matches within 5 mi' })).toBeVisible();
   await expectNoSeriousAxeIssues(page);
 });
+
+test('Card "Add your needs" returns to results without the stale needs list', async ({ page }) => {
+  await openRoute(page, '/results?care=OB-GYN&radius=15&sort=best&needs=');
+  const link = page.getByRole('link', { name: 'Add your needs' }).first();
+  await expect(link).toHaveAttribute('href', `/profile/needs?from=${encodeURIComponent('/results?care=OB-GYN&radius=15&sort=best')}`);
+});
+
+test('Map: Next wraps from the last clinic to the first and keeps focus', async ({ page }) => {
+  await openRoute(page, '/results/map?care=OB-GYN&radius=15&sort=best');
+  const next = page.getByRole('button', { name: 'Next clinic' });
+  for (let i = 0; i < 3; i++) await next.click();
+  await expect(page.locator('#sheet-h')).toHaveText('Clinic 4 of 4');
+  await next.focus();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('#sheet-h')).toHaveText('Clinic 1 of 4');
+  await expect(next).toBeFocused();
+  await page.getByRole('button', { name: 'Previous clinic' }).click();
+  await expect(page.locator('#sheet-h')).toHaveText('Clinic 4 of 4');
+});
+
+test('Map: center button names the ZIP for a ZIP profile', async ({ page }) => {
+  await openRoute(page, '/results/map?care=OB-GYN');
+  await page.getByRole('button', { name: 'Center on ZIP 94612' }).click();
+  await expect(page.getByText('Centered on ZIP 94612.')).toBeVisible();
+});
+
+test('Map: a GPS profile recenters on a fresh position and saves it', async ({ page, context }) => {
+  await context.grantPermissions(['geolocation']);
+  await context.setGeolocation({ latitude: 37.8, longitude: -122.27 });
+  await page.addInitScript(() => {
+    if (sessionStorage.getItem('seeded')) return;
+    sessionStorage.setItem('seeded', '1');
+    localStorage.setItem('carefit:v', '1');
+    localStorage.setItem('carefit:profile', JSON.stringify({
+      needs: [{ key: 'scale', priority: 'required' }], radius: 15, letter: {},
+      location: { source: 'gps', label: 'Current location', lat: 37.81, lng: -122.26 },
+    }));
+  });
+  await openRoute(page, '/results/map?care=OB-GYN');
+  await page.getByRole('button', { name: 'Center on my location' }).click();
+  await expect(page.getByText('Centered on your current location. Distances are updated.')).toBeVisible();
+  const loc = await page.evaluate(() => JSON.parse(localStorage.getItem('carefit:profile')!).location);
+  expect(loc).toMatchObject({ source: 'gps', lat: 37.8, lng: -122.27 });
+});

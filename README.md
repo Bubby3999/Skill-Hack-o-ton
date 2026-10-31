@@ -10,6 +10,7 @@ Scope and design decisions: [PROJECT.md](PROJECT.md).
 
 ## Features
 
+- **First-launch setup**: a two-step setup (needs, then location) that can be skipped or resumed. Skipping uses the demo profile.
 - **Access profile**: needs across mobility, communication, sensory/cognitive and other, each marked *required* or *nice-to-have*, plus a location (GPS or ZIP) and search radius. Stored only on your device.
 - **Search and match**: filter by specialty, distance and needs. Each clinic gets a fit score with reasons in text, e.g. *has: wheelchair scale · missing: ASL interpreter · unknown: patient lift*.
 - **Results list and map**: the list is the primary view (screen-reader friendly); the map is secondary.
