@@ -73,7 +73,7 @@ OLLAMA_BASE_URL=http://127.0.0.1:11434
 OLLAMA_MODEL=qwen2.5:7b
 ```
 
-Verify the server with `curl http://127.0.0.1:11434/api/version`. Local requests need no sign-in or API key. The CareFit backend still needs to be built before the in-app assistant can use this configuration.
+Verify the server with `curl http://127.0.0.1:11434/api/version`. Local requests need no sign-in or API key. Then run CareFit with `AI_MODE=live` to use this model in the assistant.
 
 ### HTTPS for the phone: Tailscale Funnel
 
@@ -96,10 +96,10 @@ This is a demo server: no auth or rate limiting, only request size and message-c
 | [Tailscale Funnel](https://tailscale.com/kb/1223/funnel) | Stable HTTPS URL from Loukik's Mac to the phone | Demo host |
 | [OpenStreetMap tile service](https://operations.osmfoundation.org/policies/tiles/) | Map imagery through Leaflet; visible attribution required; no offline tile prefetch | Browser |
 | [Ollama Chat API](https://docs.ollama.com/api/chat) | Local assistant and structured search filters | Local backend |
-| CareFit `POST /api/chat` (to build) | Validate assistant requests/results and forward to Ollama | Browser → backend |
+| CareFit `POST /api/chat` | Validate assistant requests/results and forward to Ollama | Browser → backend |
 | Web Storage (`localStorage`) | Profile, settings and letter drafts | Browser |
 | Geolocation (`navigator.geolocation`) | GPS location with user permission | Browser |
-| Fetch (`fetch`) | Call the AI backend; seed scripts also make HTTP requests | Browser / scripts |
+| Fetch (`fetch`) | Call the AI backend | Browser |
 | Clipboard (`navigator.clipboard.writeText`) | Copy accommodation letter | Browser |
 | Web Share (`navigator.share`) | Share letter; fall back to copy | Browser |
 | Print (`window.print`) | Print letter or save as PDF where supported | Browser |
@@ -124,7 +124,7 @@ tests           unit tests, Playwright + axe e2e
 
 ## Skills (tweaked slightly)
 
-agent-search, ponytail, ui-ux-pro-max, graphify...
+agent-search, playwright, ponytail, ui-ux-pro-max, graphify
 
 ## Tools
 
